@@ -7,462 +7,332 @@ export const mockData = {
       "order": 0,
       "sites": [
         {
-          "id": "site-1752857783656",
-          "name": "OpenAI",
-          "url": "https://chatgpt.com",
-          "description": "OpenAI,好用👌",
-          "icon": "/sitelogo/chatgpt.com.ico"
+          "id": "bfgok-login",
+          "name": "BF Gok 登录",
+          "url": "https://a.bfgok.cc/auth/login",
+          "description": "BF Gok 登录页面",
+          "icon": ""
         },
         {
-          "id": "linux-do",
-          "name": "Linux.do",
-          "url": "https://linux.do",
-          "description": "Linux技术社区，Peace and Love",
-          "icon": "/sitelogo/linux.do.ico"
+          "id": "onekey-card",
+          "name": "OneKey Card",
+          "url": "https://card.onekey.so/home",
+          "description": "OneKey Card 主页",
+          "icon": ""
         },
         {
-          "id": "curlconverter",
-          "name": "curl converter",
-          "url": "https://curlconverter.com/",
-          "description": "curl命令转换工具",
-          "icon": "/sitelogo/curlconverter.com.ico"
+          "id": "google-search-console",
+          "name": "Google Search Console",
+          "url": "https://search.google.com/search-console/links?resource_id=sc-domain%3Ayunpiao.site",
+          "description": "Google 搜索控制台",
+          "icon": ""
+        },
+        {
+          "id": "google-analytics",
+          "name": "Google Analytics",
+          "url": "https://analytics.google.com/analytics/web/#/p436652790/reports/intelligenthome",
+          "description": "Google Analytics",
+          "icon": ""
+        },
+        {
+          "id": "baidu-ziyuan",
+          "name": "百度搜索资源平台",
+          "url": "https://ziyuan.baidu.com/keywords/index?site=https://blog.yunpiao.site/",
+          "description": "百度搜索资源平台",
+          "icon": ""
         }
       ]
     },
     {
-      "id": "ai-tools",
-      "name": "AI智能",
-      "icon": "🤖",
+      "id": "cloud-services",
+      "name": "云服务与开发",
+      "icon": "☁️",
       "order": 1,
       "sites": [
         {
-          "id": "chatgpt",
-          "name": "ChatGPT",
-          "url": "https://chat.openai.com",
-          "description": "OpenAI对话AI助手",
-          "icon": "/sitelogo/chat.openai.com.ico"
+          "id": "leancloud-console",
+          "name": "LeanCloud 控制台",
+          "url": "https://console.leancloud.app/apps/7BrMs7Ee0soAHVK0ytTpEFj3-MdYXbMMI/storage/data-lake",
+          "description": "LeanCloud 应用控制台",
+          "icon": ""
         },
         {
-          "id": "claude",
-          "name": "Claude",
-          "url": "https://claude.ai",
-          "description": "Anthropic AI助手",
-          "icon": "/sitelogo/claude.ai.ico"
+          "id": "vercel-project",
+          "name": "Vercel 项目",
+          "url": "https://vercel.com/yunpiaos-projects/vercel/BHiLwbVbJkfaTfGg3qDmbQmztmqR",
+          "description": "Vercel 项目详情",
+          "icon": ""
         },
         {
-          "id": "midjourney",
-          "name": "Midjourney",
-          "url": "https://www.midjourney.com",
-          "description": "AI图像生成工具",
-          "icon": "/sitelogo/www.midjourney.com.ico"
+          "id": "yunpiao-blog",
+          "name": "云飘的博客",
+          "url": "https://blog.yunpiao.site/",
+          "description": "个人博客站点",
+          "icon": ""
         },
         {
-          "id": "copilot",
-          "name": "GitHub Copilot",
-          "url": "https://github.com/features/copilot",
-          "description": "AI代码助手",
-          "icon": "/sitelogo/github.com.ico"
+          "id": "xedge-admin",
+          "name": "Xedge 管理后台",
+          "url": "https://xedge.cc/admin/devices",
+          "description": "Xedge 设备管理",
+          "icon": ""
         },
         {
-          "id": "cursor",
-          "name": "Cursor",
-          "url": "https://cursor.sh",
-          "description": "AI代码编辑器",
-          "icon": "/sitelogo/cursor.sh.ico"
+          "id": "tailscale-admin",
+          "name": "Tailscale 管理后台",
+          "url": "https://login.tailscale.com/admin/machines",
+          "description": "Tailscale 网络管理",
+          "icon": ""
+        },
+        {
+          "id": "google-cloud-console",
+          "name": "Google Cloud Console",
+          "url": "https://console.cloud.google.com/welcome?inv=1&invt=AbzXig&project=yunpiao-1179",
+          "description": "Google Cloud Platform",
+          "icon": ""
+        },
+        {
+          "id": "firebase-studio",
+          "name": "Firebase Studio",
+          "url": "https://studio.firebase.google.com/",
+          "description": "Firebase 项目管理",
+          "icon": ""
+        },
+        {
+          "id": "cloudworkstation-vnc",
+          "name": "Cloud Workstation VNC",
+          "url": "https://80-idx-g1-1744552922608.cluster-mwrgkbggpvbq6tvtviraw2knqg.cloudworkstations.dev/vnc.html?autoconnect=true&resize=remote",
+          "description": "远程工作站",
+          "icon": ""
         }
       ]
     },
     {
-      "id": "cloud",
-      "name": "云服务",
-      "icon": "☁️",
+      "id": "internal-services",
+      "name": "内部服务",
+      "icon": "🏠",
       "order": 2,
       "sites": [
         {
-          "id": "cloudflare",
-          "name": "Cloudflare",
-          "url": "https://www.cloudflare.com",
-          "description": "全球CDN和网络安全服务",
-          "icon": "/sitelogo/www.cloudflare.com.ico"
+          "id": "internal-safe-settings",
+          "name": "安全设置",
+          "url": "http://100.64.0.13:37644/settings/safe",
+          "description": "内部服务安全设置",
+          "icon": ""
         },
         {
-          "id": "vercel",
-          "name": "Vercel",
-          "url": "https://vercel.com",
-          "description": "前端部署平台",
-          "icon": "/sitelogo/vercel.com.ico"
+          "id": "internal-v-service-1",
+          "name": "内部服务 V1",
+          "url": "https://v.yunpiao.site:37644/12138",
+          "description": "内部服务",
+          "icon": ""
         },
         {
-          "id": "aws",
-          "name": "AWS",
-          "url": "https://aws.amazon.com",
-          "description": "亚马逊云服务",
-          "icon": "/sitelogo/aws.amazon.com.ico"
+          "id": "internal-v-service-2",
+          "name": "内部服务 V2",
+          "url": "https://v.yunpiao.site:20443/i/",
+          "description": "内部服务",
+          "icon": ""
         },
         {
-          "id": "aliyun",
-          "name": "阿里云",
-          "url": "https://www.aliyun.com",
-          "description": "阿里巴巴云计算",
-          "icon": "/sitelogo/www.aliyun.com.ico"
+          "id": "internal-dashboard",
+          "name": "内部仪表盘",
+          "url": "http://100.64.0.1:3001/dashboard",
+          "description": "内部服务仪表盘",
+          "icon": ""
         },
         {
-          "id": "tencent-cloud",
-          "name": "腾讯云",
-          "url": "https://cloud.tencent.com",
-          "description": "腾讯云计算服务",
-          "icon": "/sitelogo/cloud.tencent.com.ico"
+          "id": "internal-storage",
+          "name": "内部存储",
+          "url": "http://100.64.0.1:5244/",
+          "description": "内部存储服务",
+          "icon": ""
         },
         {
-          "id": "huawei-cloud",
-          "name": "华为云",
-          "url": "https://www.huaweicloud.com",
-          "description": "华为云计算服务",
-          "icon": "/sitelogo/www.huaweicloud.com.ico"
+          "id": "internal-service-5000",
+          "name": "内部服务 5000",
+          "url": "http://100.64.0.1:5000/",
+          "description": "内部服务",
+          "icon": ""
         },
         {
-          "id": "site-1752644060499",
-          "name": "怕死云",
-          "url": "https://www.pasyun.com/",
-          "description": "ipv6机器",
-          "icon": "/sitelogo/www.pasyun.com.ico"
+          "id": "internal-lab",
+          "name": "内部实验室",
+          "url": "http://100.64.0.1:8888/login?next=%2Flab",
+          "description": "内部实验平台",
+          "icon": ""
+        },
+        {
+          "id": "internal-service-52080",
+          "name": "内部服务 52080",
+          "url": "http://100.64.0.1:52080/",
+          "description": "内部服务",
+          "icon": ""
         }
       ]
     },
     {
-      "id": "dev-tools",
-      "name": "开发工具",
+      "id": "tools-and-resources",
+      "name": "工具与资源",
       "icon": "🛠️",
       "order": 3,
       "sites": [
         {
-          "id": "github",
-          "name": "GitHub",
-          "url": "https://github.com",
-          "description": "代码托管平台",
-          "icon": "/sitelogo/github.com.ico"
+          "id": "cloudflare-stock",
+          "name": "CloudFlare 优选IP",
+          "url": "https://stock.hostmonit.com/CloudFlareYes",
+          "description": "CloudFlare 节点监控",
+          "icon": ""
         },
         {
-          "id": "vscode",
-          "name": "VS Code",
-          "url": "https://code.visualstudio.com",
-          "description": "代码编辑器",
-          "icon": "/sitelogo/code.visualstudio.com.ico"
+          "id": "notebooklm",
+          "name": "NotebookLM",
+          "url": "https://notebooklm.google.com/?original_referer=https:%2F%2Fwww.google.com%23&pli=1",
+          "description": "Google AI 笔记工具",
+          "icon": ""
         },
         {
-          "id": "webstorm",
-          "name": "WebStorm",
-          "url": "https://www.jetbrains.com/webstorm/",
-          "description": "专业前端IDE",
-          "icon": "/sitelogo/www.jetbrains.com.ico"
+          "id": "quail-ink",
+          "name": "Quail.ink",
+          "url": "https://quail.ink/yunpiai",
+          "description": "个人作品集",
+          "icon": ""
         },
         {
-          "id": "postman",
-          "name": "Postman",
-          "url": "https://www.postman.com",
-          "description": "API测试工具",
-          "icon": "/sitelogo/www.postman.com.ico"
+          "id": "bfgbfg-user",
+          "name": "BFG 用户中心",
+          "url": "https://www.bfgbfg.com/user",
+          "description": "用户中心",
+          "icon": ""
         },
         {
-          "id": "android-studio",
-          "name": "Android Studio",
-          "url": "https://developer.android.com/studio",
-          "description": "Android官方开发工具",
-          "icon": "/sitelogo/developer.android.com.ico"
+          "id": "runjs-cv",
+          "name": "RunJS CV",
+          "url": "https://cv.runjs.cool/",
+          "description": "在线简历工具",
+          "icon": ""
         },
         {
-          "id": "oracle-java",
-          "name": "Oracle Java",
-          "url": "https://www.oracle.com/java/technologies/downloads/",
-          "description": "Oracle官方Java下载",
-          "icon": "/sitelogo/www.oracle.com.ico"
+          "id": "chrome-dev-console",
+          "name": "Chrome 开发者控制台",
+          "url": "https://chrome.google.com/webstore/devconsole/8fef536f-cd33-46f4-afab-6ee2ce4ebe0b",
+          "description": "Chrome 网上应用店开发者信息中心",
+          "icon": ""
+        },
+        {
+          "id": "cf-tts-worker",
+          "name": "CF TTS Worker",
+          "url": "https://cf-tts.yunpiao111.workers.dev/",
+          "description": "Cloudflare TTS 服务",
+          "icon": ""
+        },
+        {
+          "id": "anyrouter-console",
+          "name": "AnyRouter Console",
+          "url": "https://anyrouter.top/console",
+          "description": "AnyRouter 控制台",
+          "icon": ""
+        },
+        {
+          "id": "yacd-metacubex",
+          "name": "Yacd MetaCubex",
+          "url": "https://yacd.metacubex.one/?hostname=100.64.0.10&port=9097&secret=22222#/logs",
+          "description": "MetaCubex 日志",
+          "icon": ""
         }
       ]
     },
     {
-      "id": "community",
-      "name": "社区论坛",
-      "icon": "👥",
-      "order": 6,
-      "sites": [
-        {
-          "id": "stackoverflow",
-          "name": "Stack Overflow",
-          "url": "https://stackoverflow.com",
-          "description": "程序员问答社区",
-          "icon": "/sitelogo/stackoverflow.com.ico"
-        },
-        {
-          "id": "linuxdo",
-          "name": "Linux.do",
-          "url": "https://linux.do",
-          "description": "Linux与开源技术社区",
-          "icon": "/sitelogo/linux.do.ico"
-        },
-        {
-          "id": "nodeseek",
-          "name": "NodeSeek",
-          "url": "https://www.nodeseek.com",
-          "description": "极客技术社区",
-          "icon": "/sitelogo/www.nodeseek.com.ico"
-        },
-        {
-          "id": "v2ex",
-          "name": "V2EX",
-          "url": "https://www.v2ex.com",
-          "description": "创意工作者社区",
-          "icon": "/sitelogo/www.v2ex.com.ico"
-        },
-        {
-          "id": "52pojie",
-          "name": "吾爱破解",
-          "url": "https://www.52pojie.cn/",
-          "description": "软件安全与破解技术论坛",
-          "icon": "/sitelogo/www.52pojie.cn.ico"
-        }
-      ]
-    },
-    {
-      "id": "design",
-      "name": "设计工具",
-      "icon": "🎨",
+      "id": "subscriptions-and-services",
+      "name": "订阅与服务",
+      "icon": "💳",
       "order": 4,
       "sites": [
         {
-          "id": "figma",
-          "name": "Figma",
-          "url": "https://figma.com",
-          "description": "UI设计工具",
-          "icon": "/sitelogo/figma.com.ico"
+          "id": "afun-subscription",
+          "name": "Afun 订阅",
+          "url": "https://dash.afun.la/subscription",
+          "description": "Afun 订阅管理",
+          "icon": ""
         },
         {
-          "id": "sketch",
-          "name": "Sketch",
-          "url": "https://www.sketch.com",
-          "description": "界面设计工具",
-          "icon": "/sitelogo/www.sketch.com.ico"
+          "id": "clawcloudrun-subscription",
+          "name": "ClawCloudRun 订阅",
+          "url": "https://ffoxdtxo.ap-northeast-1.clawcloudrun.com/subscription",
+          "description": "ClawCloudRun 订阅管理",
+          "icon": ""
         },
         {
-          "id": "canva",
-          "name": "Canva",
-          "url": "https://www.canva.com",
-          "description": "在线设计平台",
-          "icon": "/sitelogo/www.canva.com.ico"
+          "id": "afun-home",
+          "name": "Afun",
+          "url": "https://afun.la/",
+          "description": "Afun 主页",
+          "icon": ""
+        }
+      ]
+    },
+    {
+      "id": "monitoring-and-management",
+      "name": "监控与管理",
+      "icon": "📊",
+      "order": 5,
+      "sites": [
+        {
+          "id": "kibana",
+          "name": "Kibana",
+          "url": "https://kibana.yunpiao.site:20443/kibana/app/home#/",
+          "description": "Kibana 数据可视化",
+          "icon": ""
         },
         {
-          "id": "adobe-xd",
-          "name": "Adobe XD",
-          "url": "https://www.adobe.com/products/xd.html",
-          "description": "用户体验设计工具",
-          "icon": "/sitelogo/www.adobe.com.ico"
+          "id": "feishu-base",
+          "name": "飞书知识库",
+          "url": "https://n5yu5lqsuz.feishu.cn/base/V6mXbtbiuaKRKUsKeutcP0vSnUc?table=tblSIvKQyDrHZ3CQ&view=vewWtFxxp9",
+          "description": "飞书团队知识库",
+          "icon": ""
+        },
+        {
+          "id": "dify-apps",
+          "name": "Dify 应用",
+          "url": "https://dify.yunpiao.site:20443/apps",
+          "description": "Dify AI 应用开发平台",
+          "icon": ""
+        },
+        {
+          "id": "rss-service",
+          "name": "RSS 服务",
+          "url": "https://rss.yunpiao.site:20443/",
+          "description": "个人 RSS 服务",
+          "icon": ""
+        },
+        {
+          "id": "tools-service",
+          "name": "工具集",
+          "url": "https://tools.yunpiao.site:20443/",
+          "description": "个人工具集",
+          "icon": ""
         }
       ]
     },
     {
       "id": "finance",
-      "name": "财经投资",
+      "name": "财经",
       "icon": "💰",
-      "order": 5,
-      "sites": [
-        {
-          "id": "binance",
-          "name": "币安",
-          "url": "https://www.binance.com",
-          "description": "加密货币交易平台",
-          "icon": "/sitelogo/www.binance.com.ico"
-        },
-        {
-          "id": "okx",
-          "name": "OKX",
-          "url": "https://www.okx.com",
-          "description": "数字资产交易服务平台",
-          "icon": "/sitelogo/www.okx.com.ico"
-        },
-        {
-          "id": "bitget",
-          "name": "Bitget",
-          "url": "https://www.bitget.com",
-          "description": "全球化数字资产交易服务商",
-          "icon": "/sitelogo/www.bitget.com.ico"
-        },
-        {
-          "id": "tradingview",
-          "name": "TradingView",
-          "url": "https://cn.tradingview.com",
-          "description": "专业金融图表和交易平台",
-          "icon": "/sitelogo/cn.tradingview.com.ico"
-        },
-        {
-          "id": "tonghuashun",
-          "name": "同花顺",
-          "url": "https://www.10jqka.com.cn",
-          "description": "专业股票软件及金融信息服务",
-          "icon": "/sitelogo/www.10jqka.com.cn.ico"
-        },
-        {
-          "id": "xueqiu",
-          "name": "雪球",
-          "url": "https://xueqiu.com",
-          "description": "聪明的投资者都在这里",
-          "icon": "/sitelogo/xueqiu.com.ico"
-        },
-        {
-          "id": "coinbase",
-          "name": "Coinbase",
-          "url": "https://www.coinbase.com",
-          "description": "美国合规加密货币交易平台",
-          "icon": "/sitelogo/www.coinbase.com.ico"
-        },
-        {
-          "id": "futu",
-          "name": "富途牛牛",
-          "url": "https://www.futunn.com",
-          "description": "港美股交易软件",
-          "icon": "/sitelogo/www.futunn.com.ico"
-        }
-      ]
-    },
-    {
-      "id": "learning",
-      "name": "学习资源",
-      "icon": "📚",
       "order": 6,
       "sites": [
         {
-          "id": "mdn",
-          "name": "MDN Web Docs",
-          "url": "https://developer.mozilla.org",
-          "description": "Web开发权威文档",
-          "icon": "/sitelogo/developer.mozilla.org.ico"
+          "id": "okex",
+          "name": "OKX",
+          "url": "https://www.okex.com/",
+          "description": "OKX 交易所",
+          "icon": ""
         },
         {
-          "id": "w3school",
-          "name": "W3Schools",
-          "url": "https://www.w3schools.com",
-          "description": "Web技术教程",
-          "icon": "/sitelogo/www.w3schools.com.ico"
-        },
-        {
-          "id": "runoob",
-          "name": "菜鸟教程",
-          "url": "https://www.runoob.com",
-          "description": "编程技术教程",
-          "icon": "/sitelogo/www.runoob.com.ico"
-        },
-        {
-          "id": "coursera",
-          "name": "Coursera",
-          "url": "https://www.coursera.org",
-          "description": "在线课程平台",
-          "icon": "/sitelogo/www.coursera.org.ico"
-        }
-      ]
-    },
-    {
-      "id": "tools",
-      "name": "在线工具",
-      "icon": "⚙️",
-      "order": 7,
-      "sites": [
-        {
-          "id": "json-formatter",
-          "name": "JSON Formatter",
-          "url": "https://jsonformatter.org",
-          "description": "JSON格式化工具",
-          "icon": "/sitelogo/jsonformatter.org.ico"
-        },
-        {
-          "id": "regex101",
-          "name": "Regex101",
-          "url": "https://regex101.com",
-          "description": "正则表达式测试",
-          "icon": "/sitelogo/regex101.com.ico"
-        },
-        {
-          "id": "caniuse",
-          "name": "Can I Use",
-          "url": "https://caniuse.com",
-          "description": "浏览器兼容性查询",
-          "icon": "/sitelogo/caniuse.com.ico"
-        },
-        {
-          "id": "tinypng",
-          "name": "TinyPNG",
-          "url": "https://tinypng.com",
-          "description": "图片压缩工具",
-          "icon": "/sitelogo/tinypng.com.ico"
-        }
-      ]
-    },
-    {
-      "id": "entertainment",
-      "name": "娱乐休闲",
-      "icon": "🎮",
-      "order": 8,
-      "sites": [
-        {
-          "id": "bilibili",
-          "name": "哔哩哔哩",
-          "url": "https://www.bilibili.com",
-          "description": "弹幕视频网站",
-          "icon": "/sitelogo/www.bilibili.com.ico"
-        },
-        {
-          "id": "youtube",
-          "name": "YouTube",
-          "url": "https://www.youtube.com",
-          "description": "视频分享平台",
-          "icon": "/sitelogo/www.youtube.com.ico"
-        },
-        {
-          "id": "douban",
-          "name": "豆瓣",
-          "url": "https://www.douban.com",
-          "description": "文艺生活社区",
-          "icon": "/sitelogo/www.douban.com.ico"
-        },
-        {
-          "id": "zhihu",
-          "name": "知乎",
-          "url": "https://www.zhihu.com",
-          "description": "知识问答社区",
-          "icon": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='black'%3E%3Cpath d='M8 0C3.58 0 0 3.58 0 8a8 8 0 005.47 7.59c.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.01.08-2.11 0 0 .67-.21 2.2.82A7.65 7.65 0 018 4.58c.68.003 1.36.092 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.91.08 2.11.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0016 8c0-4.42-3.58-8-8-8z'/%3E%3C/svg%3E"
-        }
-      ]
-    },
-    {
-      "id": "office",
-      "name": "办公协作",
-      "icon": "💼",
-      "order": 9,
-      "sites": [
-        {
-          "id": "notion",
-          "name": "Notion",
-          "url": "https://www.notion.so",
-          "description": "全能工作空间",
-          "icon": "/sitelogo/www.notion.so.ico"
-        },
-        {
-          "id": "slack",
-          "name": "Slack",
-          "url": "https://slack.com",
-          "description": "团队协作工具",
-          "icon": "/sitelogo/slack.com.ico"
-        },
-        {
-          "id": "trello",
-          "name": "Trello",
-          "url": "https://trello.com",
-          "description": "项目管理工具",
-          "icon": "/sitelogo/trello.com.ico"
-        },
-        {
-          "id": "feishu",
-          "name": "飞书",
-          "url": "https://www.feishu.cn",
-          "description": "企业协作平台",
-          "icon": "/sitelogo/www.feishu.cn.ico"
+          "id": "okx-trade",
+          "name": "OKX 交易",
+          "url": "https://www.okx.com/zh-hans/trade-spot/trump-usdt",
+          "description": "OKX 现货交易",
+          "icon": ""
         }
       ]
     }
