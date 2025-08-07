@@ -28,13 +28,6 @@ export const mockData = {
           "icon": ""
         },
         {
-          "id": "xedge-admin",
-          "name": "Xedge 管理后台",
-          "url": "https://xedge.cc/admin/devices",
-          "description": "Xedge 设备管理",
-          "icon": ""
-        },
-        {
           "id": "tailscale-admin",
           "name": "Tailscale 管理后台",
           "url": "https://login.tailscale.com/admin/machines",
