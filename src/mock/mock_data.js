@@ -1,49 +1,6 @@
 export const mockData = {
   "categories": [
     {
-      "id": "my-favorites",
-      "name": "我的常用",
-      "icon": "💥",
-      "order": 0,
-      "sites": [
-        {
-          "id": "bfgok-login",
-          "name": "BF Gok 登录",
-          "url": "https://a.bfgok.cc/auth/login",
-          "description": "BF Gok 登录页面",
-          "icon": ""
-        },
-        {
-          "id": "onekey-card",
-          "name": "OneKey Card",
-          "url": "https://card.onekey.so/home",
-          "description": "OneKey Card 主页",
-          "icon": ""
-        },
-        {
-          "id": "google-search-console",
-          "name": "Google Search Console",
-          "url": "https://search.google.com/search-console/links?resource_id=sc-domain%3Ayunpiao.site",
-          "description": "Google 搜索控制台",
-          "icon": ""
-        },
-        {
-          "id": "google-analytics",
-          "name": "Google Analytics",
-          "url": "https://analytics.google.com/analytics/web/#/p436652790/reports/intelligenthome",
-          "description": "Google Analytics",
-          "icon": ""
-        },
-        {
-          "id": "baidu-ziyuan",
-          "name": "百度搜索资源平台",
-          "url": "https://ziyuan.baidu.com/keywords/index?site=https://blog.yunpiao.site/",
-          "description": "百度搜索资源平台",
-          "icon": ""
-        }
-      ]
-    },
-    {
       "id": "cloud-services",
       "name": "云服务与开发",
       "icon": "☁️",
@@ -310,28 +267,6 @@ export const mockData = {
           "name": "工具集",
           "url": "https://tools.yunpiao.site:20443/",
           "description": "个人工具集",
-          "icon": ""
-        }
-      ]
-    },
-    {
-      "id": "finance",
-      "name": "财经",
-      "icon": "💰",
-      "order": 6,
-      "sites": [
-        {
-          "id": "okex",
-          "name": "OKX",
-          "url": "https://www.okex.com/",
-          "description": "OKX 交易所",
-          "icon": ""
-        },
-        {
-          "id": "okx-trade",
-          "name": "OKX 交易",
-          "url": "https://www.okx.com/zh-hans/trade-spot/trump-usdt",
-          "description": "OKX 现货交易",
           "icon": ""
         }
       ]
