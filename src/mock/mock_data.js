@@ -1,51 +1,44 @@
 export const mockData = {
   "categories": [
     {
-      "id": "cloud-services",
-      "name": "云服务与开发",
-      "icon": "☁️",
+      "id": "public-services",
+      "name": "公网服务",
+      "icon": "🌐",
       "order": 1,
       "sites": [
         {
-          "id": "leancloud-console",
-          "name": "LeanCloud 控制台",
-          "url": "https://console.leancloud.app/apps/7BrMs7Ee0soAHVK0ytTpEFj3-MdYXbMMI/storage/data-lake",
-          "description": "LeanCloud 应用控制台",
+          "id": "yunpiao-blog",
+          "name": "云飘的博客",
+          "url": "https://blog.yunpiao.site/",
+          "description": "个人博客站点",
           "icon": ""
         },
         {
-          "id": "vercel-project",
-          "name": "Vercel 项目",
-          "url": "https://vercel.com/yunpiaos-projects/vercel/BHiLwbVbJkfaTfGg3qDmbQmztmqR",
-          "description": "Vercel 项目详情",
+          "id": "fenshululu",
+          "name": "分数录录",
+          "url": "https://www.fenshululu.cn/",
+          "description": "分数录录网站",
           "icon": ""
         },
         {
-          "id": "tailscale-admin",
-          "name": "Tailscale 管理后台",
-          "url": "https://login.tailscale.com/admin/machines",
-          "description": "Tailscale 网络管理",
+          "id": "umami-analytics",
+          "name": "Umami 分析",
+          "url": "https://us.umami.is/dashboard",
+          "description": "网站访问统计分析",
           "icon": ""
         },
         {
-          "id": "google-cloud-console",
-          "name": "Google Cloud Console",
-          "url": "https://console.cloud.google.com/welcome?inv=1&invt=AbzXig&project=yunpiao-1179",
-          "description": "Google Cloud Platform",
+          "id": "chrome-dev-console",
+          "name": "Chrome 开发者控制台",
+          "url": "https://chrome.google.com/webstore/devconsole/8fef536f-cd33-46f4-afab-6ee2ce4ebe0b",
+          "description": "Chrome 网上应用店开发者信息中心",
           "icon": ""
         },
         {
-          "id": "firebase-studio",
-          "name": "Firebase Studio",
-          "url": "https://studio.firebase.google.com/",
-          "description": "Firebase 项目管理",
-          "icon": ""
-        },
-        {
-          "id": "cloudworkstation-vnc",
-          "name": "Cloud Workstation VNC",
-          "url": "https://80-idx-g1-1744552922608.cluster-mwrgkbggpvbq6tvtviraw2knqg.cloudworkstations.dev/vnc.html?autoconnect=true&resize=remote",
-          "description": "远程工作站",
+          "id": "github-yunpiao",
+          "name": "GitHub yunpiao",
+          "url": "https://github.com/yunpiao",
+          "description": "GitHub 个人主页",
           "icon": ""
         }
       ]
@@ -54,7 +47,7 @@ export const mockData = {
       "id": "internal-services",
       "name": "内部服务",
       "icon": "🏠",
-      "order": 2,
+      "order": 3,
       "sites": [
         {
           "id": "internal-safe-settings",
@@ -118,7 +111,7 @@ export const mockData = {
       "id": "tools-and-resources",
       "name": "工具与资源",
       "icon": "🛠️",
-      "order": 3,
+      "order": 4,
       "sites": [
                 {
           "id": "notebooklm",
@@ -168,7 +161,7 @@ export const mockData = {
       "id": "monitoring-and-management",
       "name": "监控与管理",
       "icon": "📊",
-      "order": 4,
+      "order": 5,
       "sites": [
         {
           "id": "kibana",
@@ -211,13 +204,13 @@ export const mockData = {
       "id": "subscriptions-and-services",
       "name": "订阅与服务",
       "icon": "💳",
-      "order": 5,
+      "order": 6,
       "sites": [
         {
-          "id": "afun-subscription",
-          "name": "Afun 订阅",
-          "url": "https://dash.afun.la/subscription",
-          "description": "Afun 订阅管理",
+          "id": "clash-subscription",
+          "name": "Clash 订阅",
+          "url": "https://a.bfgok.cc/auth/login",
+          "description": "Clash 订阅管理",
           "icon": ""
         },
         {
@@ -228,53 +221,10 @@ export const mockData = {
           "icon": ""
         },
         {
-          "id": "afun-home",
-          "name": "Afun",
-          "url": "https://afun.la/",
-          "description": "Afun 主页",
-          "icon": ""
-        }
-      ]
-    },
-    {
-      "id": "public-services",
-      "name": "公网服务",
-      "icon": "🌐",
-      "order": 6,
-      "sites": [
-        {
-          "id": "yunpiao-blog",
-          "name": "云飘的博客",
-          "url": "https://blog.yunpiao.site/",
-          "description": "个人博客站点",
-          "icon": ""
-        },
-        {
-          "id": "fenshululu",
-          "name": "分数路路",
-          "url": "https://www.fenshululu.cn/",
-          "description": "分数路路网站",
-          "icon": ""
-        },
-        {
-          "id": "umami-analytics",
-          "name": "Umami 分析",
-          "url": "https://us.umami.is/dashboard",
-          "description": "网站访问统计分析",
-          "icon": ""
-        },
-        {
-          "id": "chrome-dev-console",
-          "name": "Chrome 开发者控制台",
-          "url": "https://chrome.google.com/webstore/devconsole/8fef536f-cd33-46f4-afab-6ee2ce4ebe0b",
-          "description": "Chrome 网上应用店开发者信息中心",
-          "icon": ""
-        },
-        {
-          "id": "github-yunpiao",
-          "name": "GitHub yunpiao",
-          "url": "https://github.com/yunpiao",
-          "description": "GitHub 个人主页",
+          "id": "clash-login",
+          "name": "Clash 登录",
+          "url": "https://a.bfgok.cc/auth/login",
+          "description": "Clash 登录页面",
           "icon": ""
         }
       ]
