@@ -1,4 +1,4 @@
-# 🐱 猫猫导航 (Mao Nav)
+# 🐱 Home导航 (Mao Nav)
 
 > 一个简洁美观的个人导航网站，支持分类管理和自定义收藏夹
 
@@ -26,7 +26,7 @@
 
 
 ## 🚀 快速开始
-图文教程可访问[猫猫导航图文教程](https://blog.maodeyu.fun/2025/07/16/nav_mao/)
+图文教程可访问[Home导航图文教程](https://blog.maodeyu.fun/2025/07/16/nav_mao/)
 ### 🚀 部署到 Cloudflare（推荐）
 
 **1. Fork 本项目**
