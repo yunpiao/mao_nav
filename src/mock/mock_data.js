@@ -104,6 +104,20 @@ export const mockData = {
           "url": "http://100.64.0.1:52080/",
           "description": "致力于让 Markdown 编辑更简单",
           "icon": ""
+        },
+        {
+          "id": "internal-vsag-search",
+          "name": "VSAG 向量搜索",
+          "url": "http://100.64.0.1:8000/",
+          "description": "内网部署的 VSAG 向量搜索服务",
+          "icon": ""
+        },
+        {
+          "id": "anytotext-service",
+          "name": "AnyToText",
+          "url": "https://tools.yunpiao.site:20443/",
+          "description": "AnyToText 内网服务",
+          "icon": ""
         }
       ]
     },
