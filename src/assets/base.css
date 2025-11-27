@@ -34,6 +34,19 @@
   --color-text: var(--vt-c-text-light-1);
 
   --section-gap: 160px;
+
+  /* Brand theme tokens */
+  --brand-primary: #ff6a00;            /* 主色：活力橙 */
+  --brand-primary-600: #ff7a1a;
+  --brand-accent: #0ea5e9;             /* 强调：清爽蓝 */
+  --brand-surface: #ffffff;            /* 卡片/表面 */
+  --brand-bg: #f8fafc;                 /* 页面背景 */
+  --brand-border: #e5e7eb;             /* 边框色 */
+  --brand-text: #1f2937;               /* 主文本 */
+  --brand-muted: #6b7280;              /* 次要文本 */
+  /* RGB 形式便于透明度混合 */
+  --brand-primary-rgb: 255, 106, 0;
+  --brand-accent-rgb: 14, 165, 233;
 }
 
 @media (prefers-color-scheme: dark) {
