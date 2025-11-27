@@ -45,7 +45,7 @@ export const mockData = {
         {
           "id": "grafana",
           "name": "Grafana",
-          "url": "https://grafana.yunpiao.site/dashboards",
+          "url": "https://grafana.yunpiao.site/dashboards/",
           "description": "监控数据可视化大屏",
           "icon": ""
         },
