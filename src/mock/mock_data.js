@@ -35,10 +35,10 @@ export const mockData = {
           "icon": ""
         },
         {
-          "id": "cf-tts",
-          "name": "CF TTS",
-          "url": "https://cf-tts.yunpiao.site",
-          "description": "Cloudflare TTS 语音合成服务",
+          "id": "tts",
+          "name": "TTS",
+          "url": "https://tts.yunpiao.site",
+          "description": "语音合成服务",
           "icon": ""
         }
       ]
@@ -189,13 +189,6 @@ export const mockData = {
           "name": "NewAPI",
           "url": "https://newapi.yunpiao.site",
           "description": "API 管理服务",
-          "icon": ""
-        },
-        {
-          "id": "yetst",
-          "name": "Yetst",
-          "url": "https://yetst.yunpiao.site",
-          "description": "测试服务",
           "icon": ""
         }
       ]
