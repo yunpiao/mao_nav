@@ -265,7 +265,7 @@ onMounted(() => {
           <button @click="fetchCategories" class="px-6 py-2 bg-white border border-slate-200 text-slate-600 rounded-full hover:bg-slate-50 transition shadow-sm text-sm">Retry</button>
         </div>
 
-        <div v-else class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div v-else class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 items-start">
           <div 
             v-for="category in filteredCategories" 
             :key="category.id" 
