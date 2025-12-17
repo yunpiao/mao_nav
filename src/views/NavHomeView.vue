@@ -1,16 +1,30 @@
 <script setup>
 import { ref, computed, onMounted } from 'vue'
 import { useNavigation } from '@/apis/useNavigation.js'
-import { 
-  Search, 
-  Lock, 
+import {
+  Search,
+  Lock,
   LayoutGrid,
   ArrowUpDown,
   Github,
   Menu,
   X,
-  ChevronRight
+  ChevronRight,
+  Bot,
+  Activity,
+  Database,
+  Wrench,
+  Home
 } from 'lucide-vue-next'
+
+// Category icon mapping
+const categoryIcons = {
+  'ai-services': Bot,
+  'dev-ops': Activity,
+  'data-storage': Database,
+  'tools': Wrench,
+  'personal': Home
+}
 
 // --- Navigation Data ---
 const { categories, title, loading, error, fetchCategories } = useNavigation()
@@ -260,8 +274,9 @@ onMounted(() => {
             <div class="bg-white rounded-[2rem] p-6 shadow-[0_10px_40px_-10px_rgba(0,0,0,0.03)] border border-white/50 hover:shadow-[0_20px_50px_-10px_rgba(198,185,255,0.2)] transition-all duration-500 hover:-translate-y-1">
               
               <div class="flex items-center gap-4 mb-6 pb-4 border-b border-slate-50">
-                <div class="w-10 h-10 rounded-2xl bg-gradient-to-br from-[#F3F0FF] to-[#E0D4FF] flex items-center justify-center text-xl shadow-inner">
-                  {{ category.icon }}
+                <div class="w-10 h-10 rounded-2xl bg-gradient-to-br from-[#F3F0FF] to-[#E0D4FF] flex items-center justify-center shadow-inner text-indigo-500">
+                  <component :is="categoryIcons[category.id]" class="w-5 h-5" v-if="categoryIcons[category.id]" />
+                  <span v-else class="text-xl">{{ category.icon }}</span>
                 </div>
                 <h2 class="text-lg font-bold text-slate-800 tracking-tight">{{ category.name }}</h2>
               </div>
@@ -319,7 +334,10 @@ onMounted(() => {
           <div class="flex-1 overflow-y-auto px-6 pb-6 space-y-3">
              <div class="text-sm text-slate-400 font-medium mb-2 px-2">Categories</div>
              <div v-for="cat in categories" :key="cat.id" class="p-4 rounded-2xl bg-slate-50 flex items-center gap-3">
-                <span class="text-xl">{{ cat.icon }}</span>
+                <span class="text-indigo-500">
+                  <component :is="categoryIcons[cat.id]" class="w-5 h-5" v-if="categoryIcons[cat.id]" />
+                  <span v-else class="text-xl">{{ cat.icon }}</span>
+                </span>
                 <span class="font-bold text-slate-700">{{ cat.name }}</span>
              </div>
           </div>
