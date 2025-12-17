@@ -33,6 +33,13 @@ export const mockData = {
           "url": "https://chatglm.cn/",
           "description": "GLM-4 国产大模型",
           "icon": ""
+        },
+        {
+          "id": "cf-tts",
+          "name": "CF TTS",
+          "url": "https://cf-tts.yunpiao.site",
+          "description": "Cloudflare TTS 语音合成服务",
+          "icon": ""
         }
       ]
     },
@@ -89,6 +96,20 @@ export const mockData = {
           "name": "V1 Panel",
           "url": "https://v1.yunpiao.site",
           "description": "备用服务器管理面板",
+          "icon": ""
+        },
+        {
+          "id": "kuma",
+          "name": "Uptime Kuma",
+          "url": "https://kuma.yunpiao.site",
+          "description": "服务可用性监控",
+          "icon": ""
+        },
+        {
+          "id": "cf-dash",
+          "name": "CF Dashboard",
+          "url": "https://cf-dash.yunpiao.site",
+          "description": "Cloudflare 流量仪表盘",
           "icon": ""
         }
       ]
@@ -162,6 +183,20 @@ export const mockData = {
           "url": "https://www.fenshululu.cn/",
           "description": "分数录入系统",
           "icon": ""
+        },
+        {
+          "id": "newapi",
+          "name": "NewAPI",
+          "url": "https://newapi.yunpiao.site",
+          "description": "API 管理服务",
+          "icon": ""
+        },
+        {
+          "id": "yetst",
+          "name": "Yetst",
+          "url": "https://yetst.yunpiao.site",
+          "description": "测试服务",
+          "icon": ""
         }
       ]
     },
@@ -190,6 +225,13 @@ export const mockData = {
           "name": "Umami",
           "url": "https://cloud.umami.is/analytics/us/websites/b341aa93-c0f2-40b4-bee8-dff72e443562?date=7day",
           "description": "访问统计",
+          "icon": ""
+        },
+        {
+          "id": "happy-web",
+          "name": "Happy Web",
+          "url": "https://happy-web.yunpiao.site",
+          "description": "Happy Web 站点",
           "icon": ""
         }
       ]
