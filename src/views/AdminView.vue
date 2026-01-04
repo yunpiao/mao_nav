@@ -1,111 +1,220 @@
 <template>
-  <div class="admin-container">
-    <!-- 登录界面 -->
-    <div v-if="!isAuthenticated" class="login-container">
-      <div class="login-box">
-        <h1>🔐 管理员登录</h1>
-        <form @submit.prevent="handleLogin">
-          <div class="form-group">
-            <label for="password">管理密钥:</label>
-            <input
-              id="password"
-              type="password"
-              v-model="loginPassword"
-              placeholder="请输入管理密钥"
-              required
-              class="form-input"
-            />
+  <div class="min-h-screen bg-[#F4F1FA] relative overflow-hidden">
+    <!-- Login Screen -->
+    <div v-if="!isAuthenticated" class="min-h-screen flex items-center justify-center p-4">
+      <!-- Background Blobs -->
+      <div class="clay-blob clay-blob-purple" style="top: 10%; left: 15%; width: 300px; height: 300px; animation-delay: 0s;"></div>
+      <div class="clay-blob clay-blob-pink" style="bottom: 15%; right: 20%; width: 350px; height: 350px; animation-delay: 2s;"></div>
+
+      <div class="w-full max-w-sm relative z-10">
+        <!-- Logo -->
+        <div class="text-center mb-8">
+          <div class="clay-icon-container w-16 h-16 mx-auto mb-4">
+            <Lock class="w-8 h-8 text-[#7C3AED]" />
           </div>
-          <button type="submit" class="login-btn" :disabled="loading">
-            {{ loading ? '验证中...' : '登录' }}
-          </button>
-        </form>
-        <div v-if="loginError" class="error-message">
-          {{ loginError }}
+          <h1 class="text-2xl font-semibold text-clay-foreground">Admin Login</h1>
+          <p class="text-sm text-clay-muted mt-2">Enter your credentials to continue</p>
+        </div>
+
+        <!-- Login Form -->
+        <div class="clay-lock-card p-8">
+          <form @submit.prevent="handleLogin" class="space-y-6">
+            <div>
+              <label class="block text-sm font-medium text-clay-foreground mb-2">
+                Password
+              </label>
+              <input
+                type="password"
+                v-model="loginPassword"
+                class="clay-input"
+                placeholder="Enter admin password"
+                required
+              />
+            </div>
+
+            <button
+              type="submit"
+              :disabled="loading"
+              class="clay-button w-full flex items-center justify-center gap-2"
+            >
+              <Loader2 v-if="loading" class="w-4 h-4 animate-spin" />
+              {{ loading ? 'Verifying...' : 'Sign In' }}
+            </button>
+
+            <p v-if="loginError" class="text-sm text-red-600 text-center bg-red-50/80 rounded-lg p-3">
+              {{ loginError }}
+            </p>
+          </form>
         </div>
       </div>
     </div>
 
-    <!-- 管理界面 -->
-    <div v-else class="admin-dashboard">
-      <!-- 顶部导航 -->
-      <header class="admin-header">
-        <div class="header-content">
-          <h1>🛠️ 导航站管理</h1>
-          <div class="header-actions">
-            <button @click="emergencyReset" class="emergency-btn" hidden="true">🚨 紧急重置</button>
-            <button @click="debugLoadData" class="debug-btn" hidden="true">🔍 调试加载</button>
-            <span class="user-info">管理员</span>
-            <button @click="logout" class="logout-btn">退出</button>
+    <!-- Admin Dashboard -->
+    <div v-else class="min-h-screen flex">
+      <!-- Sidebar -->
+      <aside class="w-64 bg-white/80 backdrop-blur-xl border-r border-white/50 fixed inset-y-0 left-0 flex flex-col z-30 hidden lg:flex">
+        <!-- Logo -->
+        <div class="h-16 px-6 flex items-center border-b border-white/30">
+          <span class="text-lg font-semibold text-clay-foreground">Admin Panel</span>
+        </div>
+
+        <!-- Navigation -->
+        <nav class="flex-1 p-4 space-y-1">
+          <button
+            v-for="tab in tabs"
+            :key="tab.id"
+            @click="handleTabClick(tab.id)"
+            class="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-left
+                   transition-all duration-200"
+            :class="activeTab === tab.id
+              ? 'bg-gradient-to-r from-[#7C3AED] to-[#8B5CF6] text-white shadow-lg'
+              : 'text-clay-muted hover:bg-white/50 hover:text-clay-foreground'"
+          >
+            <component :is="tab.icon" class="w-5 h-5" />
+            <span class="font-medium">{{ tab.label }}</span>
+          </button>
+        </nav>
+
+        <!-- User/Logout -->
+        <div class="p-4 border-t border-white/30">
+          <button
+            @click="logout"
+            class="w-full flex items-center gap-3 px-4 py-3 rounded-xl
+                   text-clay-muted hover:bg-red-50 hover:text-red-600 transition-colors"
+          >
+            <LogOut class="w-5 h-5" />
+            <span class="font-medium">Logout</span>
+          </button>
+        </div>
+      </aside>
+
+      <!-- Mobile Header -->
+      <div class="lg:hidden fixed top-0 left-0 right-0 h-16 bg-white/80 backdrop-blur-xl border-b border-white/50 z-30 flex items-center justify-between px-4">
+        <span class="text-lg font-semibold text-clay-foreground">Admin Panel</span>
+        <button
+          @click="showMobileNav = !showMobileNav"
+          class="clay-icon-container p-2"
+        >
+          <Menu class="w-5 h-5" />
+        </button>
+      </div>
+
+      <!-- Mobile Navigation Overlay -->
+      <transition
+        enter-active-class="transition duration-200 ease-out"
+        enter-from-class="opacity-0"
+        enter-to-class="opacity-100"
+        leave-active-class="transition duration-150 ease-in"
+        leave-from-class="opacity-100"
+        leave-to-class="opacity-0"
+      >
+        <div v-if="showMobileNav" class="lg:hidden fixed inset-0 z-40" @click="showMobileNav = false">
+          <div class="absolute inset-0 bg-black/40 backdrop-blur-sm"></div>
+          <div class="clay-card rounded-none absolute left-0 top-0 bottom-0 w-64 flex flex-col" @click.stop>
+            <div class="h-16 px-6 flex items-center justify-between border-b border-white/30">
+              <span class="text-lg font-semibold text-clay-foreground">Menu</span>
+              <button @click="showMobileNav = false" class="clay-icon-container p-2">
+                <X class="w-5 h-5" />
+              </button>
+            </div>
+            <nav class="flex-1 p-4 space-y-1">
+              <button
+                v-for="tab in tabs"
+                :key="tab.id"
+                @click="handleTabClick(tab.id); showMobileNav = false"
+                class="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-left transition-colors"
+                :class="activeTab === tab.id
+                  ? 'bg-gradient-to-r from-[#7C3AED] to-[#8B5CF6] text-white shadow-lg'
+                  : 'text-clay-muted hover:bg-white/50 hover:text-clay-foreground'"
+              >
+                <component :is="tab.icon" class="w-5 h-5" />
+                <span class="font-medium">{{ tab.label }}</span>
+              </button>
+            </nav>
+            <div class="p-4 border-t border-white/30">
+              <button
+                @click="logout"
+                class="w-full flex items-center gap-3 px-4 py-3 rounded-xl
+                       text-clay-muted hover:bg-red-50 hover:text-red-600 transition-colors"
+              >
+                <LogOut class="w-5 h-5" />
+                <span class="font-medium">Logout</span>
+              </button>
+            </div>
           </div>
         </div>
-      </header>
+      </transition>
 
-      <!-- 主要内容 -->
-      <main class="admin-main">
-        <!-- 加载状态显示 -->
-        <div v-if="loading" class="loading-overlay">
-          <div class="loading-content">
-            <div class="loading-spinner"></div>
-            <p>正在加载数据...</p>
-            <button @click="skipLoading" class="skip-loading-btn">跳过加载</button>
+      <!-- Main Content -->
+      <main class="flex-1 lg:ml-64 pt-16 lg:pt-0">
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+          <!-- Page Header -->
+          <div class="mb-8">
+            <h1 class="text-2xl font-semibold text-clay-foreground">
+              {{ currentTabLabel }}
+            </h1>
+            <p class="text-sm text-clay-muted mt-1">
+              {{ currentTabDescription }}
+            </p>
           </div>
-        </div>
 
-        <div class="admin-tabs">
-          <button
-            class="tab-btn"
-            :class="{ active: activeTab === 'categories' }"
-            @click="activeTab = 'categories'"
+          <!-- Loading Overlay -->
+          <transition
+            enter-active-class="transition duration-200 ease-out"
+            enter-from-class="opacity-0"
+            enter-to-class="opacity-100"
+            leave-active-class="transition duration-150 ease-in"
+            leave-from-class="opacity-100"
+            leave-to-class="opacity-0"
           >
-            📁 分类管理
-          </button>
-          <button
-            class="tab-btn"
-            :class="{ active: activeTab === 'sites' }"
-            @click="switchToSiteTab"
-          >
-            🌐 站点管理
-          </button>
-          <button
-            class="tab-btn"
-            :class="{ active: activeTab === 'settings' }"
-            @click="activeTab = 'settings'"
-          >
-            ⚙️ 系统设置
-          </button>
-        </div>
+            <div v-if="loading" class="fixed inset-0 z-50 flex items-center justify-center bg-[#F4F1FA]/80 backdrop-blur-sm">
+              <div class="clay-card p-8 text-center">
+                <div class="w-10 h-10 border-2 border-white/50 border-t-[#7C3AED] rounded-full animate-spin mx-auto mb-4"></div>
+                <p class="text-clay-muted mb-4">Loading data...</p>
+                <button
+                  @click="skipLoading"
+                  class="px-4 py-2 text-sm font-medium text-clay-muted hover:text-clay-foreground hover:bg-white/50 rounded-lg transition-colors"
+                >
+                  Skip loading
+                </button>
+              </div>
+            </div>
+          </transition>
 
-        <!-- 分类管理 -->
-        <div v-if="activeTab === 'categories'" class="tab-content">
-          <CategoryManager
-            :categories="categories"
-            @update="handleCategoriesUpdate"
-            @save="saveToGitHub"
-            @viewSites="switchToSiteManager"
-            :loading="saving"
-          />
-        </div>
+          <!-- Tab Content -->
+          <div class="clay-card">
+            <!-- Categories Tab -->
+            <div v-if="activeTab === 'categories'" class="p-6">
+              <CategoryManager
+                :categories="categories"
+                @update="handleCategoriesUpdate"
+                @save="saveToGitHub"
+                @viewSites="switchToSiteManager"
+                :loading="saving"
+              />
+            </div>
 
-        <!-- 站点管理 -->
-        <div v-if="activeTab === 'sites'" class="tab-content">
-          <SiteManager
-            :categories="categories"
-            :initialSelectedCategoryId="selectedCategoryId"
-            @update="handleCategoriesUpdate"
-            @save="saveToGitHub"
-            :loading="saving"
-          />
-        </div>
+            <!-- Sites Tab -->
+            <div v-if="activeTab === 'sites'" class="p-6">
+              <SiteManager
+                :categories="categories"
+                :initialSelectedCategoryId="selectedCategoryId"
+                @update="handleCategoriesUpdate"
+                @save="saveToGitHub"
+                :loading="saving"
+              />
+            </div>
 
-        <!-- 系统设置 -->
-        <div v-if="activeTab === 'settings'" class="tab-content">
-          <SystemSettings />
+            <!-- Settings Tab -->
+            <div v-if="activeTab === 'settings'" class="p-6">
+              <SystemSettings />
+            </div>
+          </div>
         </div>
       </main>
     </div>
 
-    <!-- 自定义弹框 -->
+    <!-- Custom Dialog -->
     <CustomDialog
       :visible="dialogVisible"
       :type="dialogType"
@@ -119,8 +228,18 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
+import {
+  Lock,
+  LogOut,
+  Loader2,
+  Menu,
+  X,
+  FolderOpen,
+  Globe,
+  Settings
+} from 'lucide-vue-next'
 import CategoryManager from '../components/admin/CategoryManager.vue'
 import SiteManager from '../components/admin/SiteManager.vue'
 import SystemSettings from '../components/admin/SystemSettings.vue'
@@ -128,49 +247,65 @@ import CustomDialog from '../components/admin/CustomDialog.vue'
 import { useGitHubAPI } from '../apis/useGitHubAPI.js'
 
 const router = useRouter()
-const { saveCategoriesToGitHub, loadCategoriesFromGitHub } = useGitHubAPI()
+const { saveCategoriesToGitHub } = useGitHubAPI()
 
-// 认证状态
+// Tab definitions
+const tabs = [
+  { id: 'categories', label: 'Categories', icon: FolderOpen },
+  { id: 'sites', label: 'Sites', icon: Globe },
+  { id: 'settings', label: 'Settings', icon: Settings }
+]
+
+// Authentication state
 const isAuthenticated = ref(false)
 const loginPassword = ref('')
 const loginError = ref('')
 const loading = ref(false)
 const saving = ref(false)
 
-// 管理界面状态
+// Admin state
 const activeTab = ref('categories')
 const categories = ref([])
-const navTitle = ref('Home导航') // 保存网站标题
-const selectedCategoryId = ref('') // 用于站点管理的选中分类
+const navTitle = ref('Home导航')
+const selectedCategoryId = ref('')
+const showMobileNav = ref(false)
 
-// 紧急兜底：如果5秒后loading还是true，强制重置
+// Computed
+const currentTabLabel = computed(() => {
+  const tab = tabs.find(t => t.id === activeTab.value)
+  return tab ? tab.label : ''
+})
+
+const currentTabDescription = computed(() => {
+  const descriptions = {
+    categories: 'Manage your navigation categories',
+    sites: 'Add and organize your site links',
+    settings: 'Configure system preferences'
+  }
+  return descriptions[activeTab.value] || ''
+})
+
+// Emergency timeout for stuck loading
 setTimeout(() => {
   if (loading.value) {
-    console.warn('检测到loading状态异常，强制重置')
+    console.warn('Loading state stuck, force reset')
     loading.value = false
-    // 确保至少有基本数据
     if (categories.value.length === 0) {
       categories.value = [
-        {
-          id: 'default',
-          name: '默认分类',
-          icon: '📁',
-          order: 0,
-          sites: []
-        }
+        { id: 'default', name: 'Default', icon: '📁', order: 0, sites: [] }
       ]
     }
   }
 }, 5000)
 
-// 自定义弹框状态
+// Dialog state
 const dialogVisible = ref(false)
 const dialogType = ref('success')
 const dialogTitle = ref('')
 const dialogMessage = ref('')
 const dialogDetails = ref([])
 
-// 验证管理员密钥
+// Login handler
 const handleLogin = async () => {
   loading.value = true
   loginError.value = ''
@@ -178,39 +313,34 @@ const handleLogin = async () => {
   try {
     const adminPassword = import.meta.env.VITE_ADMIN_PASSWORD
     if (!adminPassword) {
-      throw new Error('管理密钥未配置，请配置环境变量')
+      throw new Error('Admin password not configured')
     }
 
     if (loginPassword.value === adminPassword) {
       isAuthenticated.value = true
       localStorage.setItem('admin_authenticated', 'true')
 
-      // 登录成功后，不立即加载数据，让用户进入管理界面
-      console.log('登录成功，准备进入管理界面')
-
-      // 延迟加载，避免阻塞登录流程
       setTimeout(async () => {
         try {
           await loadCategories()
         } catch (error) {
-          console.error('登录后数据加载失败:', error)
+          console.error('Failed to load data after login:', error)
           loading.value = false
         }
       }, 500)
     } else {
-      throw new Error('密钥错误，请重新输入')
+      throw new Error('Invalid password')
     }
   } catch (error) {
     loginError.value = error.message
   } finally {
-    // 确保登录流程的loading状态被重置
     if (!isAuthenticated.value) {
       loading.value = false
     }
   }
 }
 
-// 退出登录
+// Logout handler
 const logout = () => {
   isAuthenticated.value = false
   localStorage.removeItem('admin_authenticated')
@@ -218,79 +348,42 @@ const logout = () => {
   router.push('/')
 }
 
-// 调试加载数据
-const debugLoadData = async () => {
-  console.log('=== 开始调试加载数据 ===')
-  console.log('当前环境变量:', {
-    VITE_GITHUB_TOKEN: import.meta.env.VITE_GITHUB_TOKEN ? '已配置' : '未配置',
-    VITE_GITHUB_OWNER: import.meta.env.VITE_GITHUB_OWNER,
-    VITE_GITHUB_REPO: import.meta.env.VITE_GITHUB_REPO,
-    VITE_GITHUB_BRANCH: import.meta.env.VITE_GITHUB_BRANCH
-  })
-
-  try {
-    console.log('直接调用loadCategoriesFromGitHub...')
-    const data = await loadCategoriesFromGitHub()
-    console.log('调用成功，返回数据:', data)
-
-    showDialog(
-      'success',
-      '🎉 调试成功',
-      '直接调用GitHub API成功',
-      [`• 数据类型: ${typeof data}`, `• 包含categories: ${!!data.categories}`, `• 分类数量: ${data.categories?.length || 0}`]
-    )
-  } catch (error) {
-    console.error('直接调用失败:', error)
-    showDialog(
-      'error',
-      '❌ 调试失败',
-      '直接调用GitHub API失败',
-      [`• 错误信息: ${error.message}`, `• 错误类型: ${error.constructor.name}`]
-    )
-  }
-}
-
-// 加载分类数据（简化版本，暂时只加载本地数据）
+// Load categories
 const loadCategories = async () => {
-  console.log('🔍 开始加载分类数据（简化版本）')
   loading.value = true
-
   try {
-    // 直接加载本地数据，避免GitHub API调用
     const { mockData } = await import('../mock/mock_data.js')
     categories.value = mockData.categories || []
     navTitle.value = mockData.title || 'Home导航'
-    console.log('✅ 本地数据加载成功，分类数量:', categories.value.length)
   } catch (error) {
-    console.error('❌ 本地数据加载失败:', error)
-    // 最后兜底：使用空数组
+    console.error('Failed to load data:', error)
     categories.value = []
     navTitle.value = 'Home导航'
   } finally {
-    // 确保loading状态被重置
     loading.value = false
-    console.log('🔍 数据加载完成，loading状态重置')
   }
 }
 
-// 处理分类更新
+// Handle tab click
+const handleTabClick = (tabId) => {
+  if (tabId === 'sites') {
+    selectedCategoryId.value = ''
+  }
+  activeTab.value = tabId
+}
+
+// Handle categories update
 const handleCategoriesUpdate = (newCategories) => {
   categories.value = newCategories
 }
 
-// 切换到站点管理并选中对应分类
+// Switch to site manager with category
 const switchToSiteManager = (categoryId) => {
   selectedCategoryId.value = categoryId
   activeTab.value = 'sites'
 }
 
-// 手动切换到站点管理标签
-const switchToSiteTab = () => {
-  selectedCategoryId.value = '' // 清空选中分类，显示所有站点
-  activeTab.value = 'sites'
-}
-
-// 显示弹框
+// Show dialog
 const showDialog = (type, title, message, details = []) => {
   dialogType.value = type
   dialogTitle.value = title
@@ -299,436 +392,78 @@ const showDialog = (type, title, message, details = []) => {
   dialogVisible.value = true
 }
 
-// 关闭弹框
+// Close dialog
 const closeDialog = () => {
   dialogVisible.value = false
 }
 
-// 跳过加载
+// Skip loading
 const skipLoading = async () => {
-  console.log('用户选择跳过加载')
   loading.value = false
-
-  // 尝试加载本地数据
   try {
     const { mockData } = await import('../mock/mock_data.js')
     categories.value = mockData.categories || []
     navTitle.value = mockData.title || 'Home导航'
-    console.log('跳过加载后，使用本地数据:', categories.value.length)
-  } catch (error) {
-    console.error('跳过加载时，本地数据加载失败:', error)
-    // 最基本的兜底数据
+  } catch {
     categories.value = [
-      {
-        id: 'default',
-        name: '默认分类',
-        icon: '📁',
-        order: 0,
-        sites: []
-      }
+      { id: 'default', name: 'Default', icon: '📁', order: 0, sites: [] }
     ]
     navTitle.value = 'Home导航'
   }
 
   showDialog(
     'info',
-    '⏭️ 已跳过加载',
-    '已跳过GitHub数据加载，当前使用本地数据',
-    [`• 分类数量: ${categories.value.length}`, `• 可在系统设置中重新尝试连接GitHub`]
+    'Loading Skipped',
+    'Using local data. You can reconnect to GitHub in Settings.',
+    [`• Categories: ${categories.value.length}`]
   )
 }
 
-// 保存到GitHub
+// Save to GitHub
 const saveToGitHub = async () => {
   saving.value = true
   try {
-    // 保存完整的数据结构，包括title字段
     await saveCategoriesToGitHub({
       categories: categories.value,
       title: navTitle.value
     })
     showDialog(
       'success',
-      '🎉 保存成功',
-      '您的更改已成功保存到GitHub仓库！',
+      'Saved Successfully',
+      'Your changes have been saved to GitHub.',
       [
-        '• 更改将在 2-3 分钟内自动部署到线上',
-        '• 部署完成后，您可以在前台页面看到最新内容',
-        '• 如有问题，请检查Vercel或CFpage是否触发自动部署'
+        '• Changes will be deployed in 2-3 minutes',
+        '• Check your deployment status if needed'
       ]
     )
   } catch (error) {
     showDialog(
       'error',
-      '❌ 保存失败',
-      '保存过程中发生错误，请重试',
-      [`• 错误详情: ${error.message}`]
+      'Save Failed',
+      'An error occurred while saving.',
+      [`• Error: ${error.message}`]
     )
   } finally {
     saving.value = false
   }
 }
 
-// 紧急重置加载状态
-const emergencyReset = () => {
-  console.log('用户点击紧急重置按钮，强制重置loading状态')
-  loading.value = false
-  // 强制DOM更新，确保loading状态同步到模板
-  setTimeout(() => {
-    console.log('🔍 延迟检查loading状态:', loading.value)
-    console.log('🔍 DOM中loading元素:', document.querySelector('.loading-overlay'))
-    console.log('🔍 DOM中tab按钮:', document.querySelectorAll('.tab-btn'))
-
-    // 如果loading overlay仍然存在，强制隐藏
-    const loadingOverlay = document.querySelector('.loading-overlay')
-    if (loadingOverlay) {
-      console.warn('🔍 发现loading overlay仍然存在，强制隐藏')
-      loadingOverlay.style.display = 'none'
-    }
-  }, 100)
-  showDialog(
-    'info',
-    '⚠️ 加载状态已重置',
-    '已强制重置加载状态，请刷新页面查看效果。',
-    []
-  )
-}
-
-// 组件挂载时检查认证状态
+// Mount
 onMounted(() => {
-  console.log('🔍 AdminView组件开始挂载')
-
-  // 立即强制重置loading状态，避免卡死
   loading.value = false
 
   const savedAuth = localStorage.getItem('admin_authenticated')
   if (savedAuth === 'true') {
-    console.log('🔍 检测到已登录状态')
     isAuthenticated.value = true
 
-    // 直接使用本地数据，不调用GitHub API
-    console.log('🔍 直接加载本地数据，跳过GitHub API调用')
-    try {
-      // 使用同步方式加载本地数据
-      import('../mock/mock_data.js').then(({ mockData }) => {
-        categories.value = mockData.categories || []
-        navTitle.value = mockData.title || 'Home导航'
-        console.log('🔍 本地数据加载成功，分类数量:', categories.value.length)
-      }).catch(error => {
-        console.error('🔍 本地数据加载失败:', error)
-        categories.value = []
-        navTitle.value = 'Home导航'
-      })
-    } catch (error) {
-      console.error('🔍 数据加载异常:', error)
+    import('../mock/mock_data.js').then(({ mockData }) => {
+      categories.value = mockData.categories || []
+      navTitle.value = mockData.title || 'Home导航'
+    }).catch(error => {
+      console.error('Failed to load local data:', error)
       categories.value = []
       navTitle.value = 'Home导航'
-    }
+    })
   }
-
-  console.log('🔍 AdminView组件挂载完成')
 })
 </script>
-
-<style scoped>
-.admin-container {
-  min-height: 100vh;
-  background: #2c3e50;
-}
-
-/* 登录界面样式 */
-.login-container {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 100vh;
-  padding: 20px;
-}
-
-.login-box {
-  background: white;
-  padding: 40px;
-  border-radius: 12px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-  width: 100%;
-  max-width: 400px;
-}
-
-.login-box h1 {
-  text-align: center;
-  margin-bottom: 30px;
-  color: #2c3e50;
-  font-size: 24px;
-}
-
-.form-group {
-  margin-bottom: 20px;
-}
-
-.form-group label {
-  display: block;
-  margin-bottom: 8px;
-  color: #555;
-  font-weight: 500;
-}
-
-.form-input {
-  width: 100%;
-  padding: 12px;
-  border: 2px solid #e1e1e1;
-  border-radius: 6px;
-  font-size: 16px;
-  transition: border-color 0.3s ease;
-}
-
-.form-input:focus {
-  outline: none;
-  border-color: #3498db;
-}
-
-.login-btn {
-  width: 100%;
-  padding: 12px;
-  background: #3498db;
-  color: white;
-  border: none;
-  border-radius: 6px;
-  font-size: 16px;
-  font-weight: 500;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-.login-btn:hover:not(:disabled) {
-  background: #2980b9;
-}
-
-.login-btn:disabled {
-  background: #bdc3c7;
-  cursor: not-allowed;
-}
-
-.error-message {
-  margin-top: 15px;
-  padding: 10px;
-  background: #ffebee;
-  color: #c62828;
-  border-radius: 4px;
-  text-align: center;
-  font-size: 14px;
-}
-
-/* 管理界面样式 */
-.admin-dashboard {
-  min-height: 100vh;
-  background: #f5f7fa;
-}
-
-.admin-header {
-  background: white;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  position: sticky;
-  top: 0;
-  z-index: 100;
-}
-
-.header-content {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 15px 30px;
-  max-width: 1200px;
-  margin: 0 auto;
-}
-
-.header-content h1 {
-  color: #2c3e50;
-  margin: 0;
-  font-size: 20px;
-}
-
-.header-actions {
-  display: flex;
-  align-items: center;
-  gap: 15px;
-}
-
-.user-info {
-  color: #7f8c8d;
-  font-size: 14px;
-}
-
-.emergency-btn {
-  padding: 8px 16px;
-  background: #e74c3c;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 14px;
-  transition: background-color 0.3s ease;
-  margin-right: 15px;
-}
-
-.emergency-btn:hover {
-  background: #c0392b;
-}
-
-.debug-btn {
-  padding: 8px 16px;
-  background: #f39c12;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 14px;
-  transition: background-color 0.3s ease;
-  margin-right: 15px;
-}
-
-.debug-btn:hover {
-  background: #e67e22;
-}
-
-.logout-btn {
-  padding: 8px 16px;
-  background: #e74c3c;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 14px;
-  transition: background-color 0.3s ease;
-}
-
-.logout-btn:hover {
-  background: #c0392b;
-}
-
-.admin-main {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 30px;
-}
-
-/* loading overlay 样式 */
-.loading-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(255, 255, 255, 0.9);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 9999;
-  backdrop-filter: blur(3px);
-}
-
-.loading-content {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  background: white;
-  padding: 40px;
-  border-radius: 12px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-}
-
-.loading-spinner {
-  width: 40px;
-  height: 40px;
-  border: 4px solid #f3f3f3;
-  border-top: 4px solid #3498db;
-  border-radius: 50%;
-  animation: spin 1s linear infinite;
-  margin-bottom: 20px;
-}
-
-@keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
-}
-
-.admin-tabs {
-  display: flex;
-  background: white;
-  border-radius: 8px;
-  padding: 5px;
-  margin-bottom: 30px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-}
-
-.tab-btn {
-  flex: 1;
-  padding: 12px 20px;
-  background: none;
-  border: none;
-  cursor: pointer;
-  font-size: 14px;
-  font-weight: 500;
-  color: #7f8c8d;
-  border-radius: 4px;
-  transition: all 0.3s ease;
-}
-
-.tab-btn.active {
-  background: #3498db;
-  color: white;
-}
-
-.tab-btn:hover:not(.active) {
-  background: #f8f9fa;
-  color: #2c3e50;
-}
-
-.tab-content {
-  background: white;
-  border-radius: 8px;
-  padding: 30px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-}
-
-/* 跳过加载按钮样式 */
-.skip-loading-btn {
-  margin-top: 20px;
-  padding: 10px 20px;
-  background: #f39c12;
-  color: white;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-  font-size: 14px;
-  transition: background-color 0.3s ease;
-}
-
-.skip-loading-btn:hover {
-  background: #e67e22;
-}
-
-/* 响应式设计 */
-@media (max-width: 768px) {
-  .header-content {
-    padding: 15px 20px;
-  }
-
-  .admin-main {
-    padding: 20px 15px;
-  }
-
-  .tab-content {
-    padding: 20px 15px;
-  }
-
-  .admin-tabs {
-    flex-direction: column;
-  }
-
-  .tab-btn {
-    margin-bottom: 5px;
-  }
-}
-</style>

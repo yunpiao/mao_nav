@@ -1,245 +1,338 @@
 <template>
-  <div class="system-settings">
-    <div class="settings-header">
-      <h2>⚙️ 系统设置</h2>
-      <p>管理导航站的系统配置和GitHub集成</p>
-    </div>
-
-    <!-- GitHub连接状态 -->
-    <div class="settings-section">
-      <h3>🔗 GitHub 集成状态</h3>
-      <div class="github-status" :class="{ connected: connectionStatus?.connected }">
-        <div class="status-info">
-          <div class="status-indicator">
-            <span class="status-dot" :class="{ active: connectionStatus?.connected }"></span>
-            <span class="status-text">
-              {{ connectionStatus?.connected ? 'GitHub 连接正常' : 'GitHub 连接失败' }}
-            </span>
+  <div class="space-y-8">
+    <!-- GitHub Connection Status -->
+    <section class="bg-white rounded-xl border border-gray-200 overflow-hidden">
+      <div class="px-6 py-4 border-b border-gray-100">
+        <h3 class="text-base font-semibold text-gray-900 flex items-center gap-2">
+          <Github class="w-5 h-5" />
+          GitHub Integration
+        </h3>
+      </div>
+      <div class="p-6">
+        <div
+          class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 p-4 rounded-xl border"
+          :class="connectionStatus?.connected
+            ? 'bg-green-50 border-green-200'
+            : 'bg-red-50 border-red-200'"
+        >
+          <div class="flex items-start gap-3">
+            <div
+              class="w-3 h-3 rounded-full mt-1 shrink-0"
+              :class="connectionStatus?.connected ? 'bg-green-500' : 'bg-red-500'"
+            ></div>
+            <div>
+              <p class="font-medium text-gray-900">
+                {{ connectionStatus?.connected ? 'Connected' : 'Disconnected' }}
+              </p>
+              <div v-if="connectionStatus?.connected" class="mt-2 space-y-1">
+                <p class="text-sm text-gray-600">
+                  <span class="font-medium">Repository:</span> {{ connectionStatus.repo }}
+                </p>
+                <p class="text-sm text-gray-600">
+                  <span class="font-medium">Permission:</span>
+                  <span
+                    v-if="connectionStatus.permissions?.push"
+                    class="ml-1 px-2 py-0.5 bg-green-100 text-green-700 text-xs font-medium rounded-full"
+                  >
+                    Read & Write
+                  </span>
+                  <span
+                    v-else
+                    class="ml-1 px-2 py-0.5 bg-yellow-100 text-yellow-700 text-xs font-medium rounded-full"
+                  >
+                    Read Only
+                  </span>
+                </p>
+              </div>
+              <p v-else-if="connectionStatus?.error" class="text-sm text-red-600 mt-1">
+                {{ connectionStatus.error }}
+              </p>
+            </div>
           </div>
-          <div v-if="connectionStatus?.connected" class="repo-info">
-            <p><strong>仓库:</strong> {{ connectionStatus.repo }}</p>
-            <p><strong>权限:</strong>
-              <span v-if="connectionStatus.permissions?.push" class="permission-badge success">写入权限</span>
-              <span v-else class="permission-badge warning">只读权限</span>
-            </p>
-          </div>
-          <div v-else-if="connectionStatus?.error" class="error-info">
-            <p>错误信息: {{ connectionStatus.error }}</p>
-          </div>
-        </div>
-        <div class="status-actions">
-          <button @click="testConnection" :disabled="testing" class="test-btn">
-            {{ testing ? '测试中...' : '🔄 重新测试' }}
+          <button
+            @click="testConnection"
+            :disabled="testing"
+            class="h-10 px-4 text-sm font-medium rounded-lg transition-all flex items-center gap-2 shrink-0"
+            :class="testing
+              ? 'bg-gray-200 text-gray-400 cursor-not-allowed'
+              : 'bg-gray-900 text-white hover:bg-gray-800 active:scale-[0.98]'"
+          >
+            <Loader2 v-if="testing" class="w-4 h-4 animate-spin" />
+            <RefreshCw v-else class="w-4 h-4" />
+            {{ testing ? 'Testing...' : 'Test Connection' }}
           </button>
         </div>
       </div>
-    </div>
+    </section>
 
-    <!-- 网站设置 -->
-    <div class="settings-section">
-      <h3>🌐 网站设置</h3>
-      <div class="website-settings">
-        <!-- 网站标题设置 -->
-        <div class="setting-group">
-          <label>网站标题:</label>
-          <div class="title-input-group">
+    <!-- Website Settings -->
+    <section class="bg-white rounded-xl border border-gray-200 overflow-hidden">
+      <div class="px-6 py-4 border-b border-gray-100">
+        <h3 class="text-base font-semibold text-gray-900 flex items-center gap-2">
+          <Globe class="w-5 h-5" />
+          Website Settings
+        </h3>
+      </div>
+      <div class="p-6 space-y-6">
+        <!-- Website Title -->
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-2">
+            Website Title
+          </label>
+          <div class="flex gap-3">
             <input
               v-model="websiteTitle"
               type="text"
-              placeholder="请输入网站标题"
-              class="title-input"
               maxlength="50"
-            >
+              class="flex-1 h-11 px-4 bg-gray-50 border border-gray-200 rounded-xl
+                     text-sm text-gray-900 placeholder:text-gray-400
+                     hover:border-gray-300 focus:bg-white focus:border-blue-500
+                     focus:ring-4 focus:ring-blue-500/10 outline-none transition-all"
+              placeholder="Enter website title"
+            />
             <button
               @click="saveTitleToGitHub"
               :disabled="titleSaving || !websiteTitle.trim()"
-              class="save-title-btn"
+              class="h-11 px-4 text-sm font-medium rounded-xl transition-all flex items-center gap-2 shrink-0"
+              :class="titleSaving || !websiteTitle.trim()
+                ? 'bg-gray-200 text-gray-400 cursor-not-allowed'
+                : 'bg-gray-900 text-white hover:bg-gray-800 active:scale-[0.98]'"
             >
-              {{ titleSaving ? '保存中...' : '💾 保存标题' }}
+              <Loader2 v-if="titleSaving" class="w-4 h-4 animate-spin" />
+              <Save v-else class="w-4 h-4" />
+              {{ titleSaving ? 'Saving...' : 'Save' }}
             </button>
           </div>
-          <p class="setting-description">当前标题: {{ currentTitle || '未设置' }}</p>
+          <p class="text-xs text-gray-500 mt-2">
+            Current: {{ currentTitle || 'Not set' }}
+          </p>
         </div>
 
-        <!-- Logo设置 -->
-        <div class="setting-group">
-          <label>网站Logo:</label>
-          <div class="logo-upload-area">
-            <div class="logo-preview">
+        <!-- Logo Upload -->
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-2">
+            Website Logo
+          </label>
+          <div class="flex flex-col sm:flex-row gap-4">
+            <div
+              class="w-32 h-32 rounded-xl border-2 border-dashed border-gray-200 bg-gray-50
+                     flex items-center justify-center overflow-hidden shrink-0"
+            >
               <img
                 v-if="logoPreview"
                 :src="logoPreview"
-                alt="Logo预览"
-                class="logo-preview-img"
-              >
+                alt="Logo preview"
+                class="w-full h-full object-contain"
+              />
               <img
                 v-else-if="currentLogo"
                 :src="currentLogo"
-                alt="当前Logo"
-                class="logo-preview-img"
-              >
-              <div v-else class="logo-placeholder">
-                <span>🖼️</span>
-                <p>暂无Logo</p>
+                alt="Current logo"
+                class="w-full h-full object-contain"
+              />
+              <div v-else class="text-center text-gray-400">
+                <ImageIcon class="w-8 h-8 mx-auto mb-2" />
+                <p class="text-xs">No logo</p>
               </div>
             </div>
-            <div class="logo-upload-controls">
+            <div class="flex flex-col gap-3">
               <input
                 ref="logoFileInput"
                 type="file"
                 accept="image/png"
                 @change="handleLogoSelect"
-                style="display: none"
+                class="hidden"
+              />
+              <button
+                @click="selectLogo"
+                class="h-10 px-4 bg-gray-100 text-gray-700 text-sm font-medium rounded-lg
+                       hover:bg-gray-200 active:scale-[0.98] transition-all flex items-center gap-2"
               >
-              <button @click="selectLogo" class="select-logo-btn">
-                📁 选择PNG文件
+                <FolderOpen class="w-4 h-4" />
+                Select PNG File
               </button>
               <button
-                @click="saveLogoToGitHub"
-                :disabled="logoSaving || !selectedLogoFile"
-                class="save-logo-btn"
                 v-if="selectedLogoFile"
+                @click="saveLogoToGitHub"
+                :disabled="logoSaving"
+                class="h-10 px-4 text-sm font-medium rounded-lg transition-all flex items-center gap-2"
+                :class="logoSaving
+                  ? 'bg-gray-200 text-gray-400 cursor-not-allowed'
+                  : 'bg-blue-600 text-white hover:bg-blue-700 active:scale-[0.98]'"
               >
-                {{ logoSaving ? '上传中...' : '🚀 上传Logo' }}
+                <Loader2 v-if="logoSaving" class="w-4 h-4 animate-spin" />
+                <Upload v-else class="w-4 h-4" />
+                {{ logoSaving ? 'Uploading...' : 'Upload Logo' }}
               </button>
+              <p class="text-xs text-gray-500">
+                PNG only, recommended size: 128x128px
+              </p>
             </div>
           </div>
-          <p class="setting-description">仅支持PNG格式，建议尺寸: 128x128px</p>
         </div>
       </div>
-    </div>
+    </section>
 
-    <!-- 环境变量配置 -->
-    <div class="settings-section">
-      <h3>🌍 环境变量配置</h3>
-      <div class="env-config">
-        <div class="config-item">
-          <label>管理员密钥 (VITE_ADMIN_PASSWORD):</label>
-          <div class="config-value">
-            <span v-if="envConfig.adminPassword" class="value-set">✅ 已配置</span>
-            <span v-else class="value-missing">❌ 未配置</span>
+    <!-- Environment Variables -->
+    <section class="bg-white rounded-xl border border-gray-200 overflow-hidden">
+      <div class="px-6 py-4 border-b border-gray-100">
+        <h3 class="text-base font-semibold text-gray-900 flex items-center gap-2">
+          <Settings class="w-5 h-5" />
+          Environment Variables
+        </h3>
+      </div>
+      <div class="divide-y divide-gray-100">
+        <div
+          v-for="item in envItems"
+          :key="item.key"
+          class="px-6 py-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2"
+        >
+          <div>
+            <p class="text-sm font-medium text-gray-900">{{ item.label }}</p>
+            <p class="text-xs text-gray-500 font-mono">{{ item.key }}</p>
           </div>
-        </div>
-        <div class="config-item">
-          <label>GitHub Token (VITE_GITHUB_TOKEN):</label>
-          <div class="config-value">
-            <span v-if="envConfig.githubToken" class="value-set">✅ 已配置</span>
-            <span v-else class="value-missing">❌ 未配置</span>
-          </div>
-        </div>
-        <div class="config-item">
-          <label>GitHub 仓库所有者 (VITE_GITHUB_OWNER):</label>
-          <div class="config-value">
-            <span class="value-display">{{ envConfig.githubOwner || '默认: maodeyu180' }}</span>
-          </div>
-        </div>
-        <div class="config-item">
-          <label>GitHub 仓库名称 (VITE_GITHUB_REPO):</label>
-          <div class="config-value">
-            <span class="value-display">{{ envConfig.githubRepo || '默认: mao_nav' }}</span>
-          </div>
-        </div>
-        <div class="config-item">
-          <label>GitHub 分支 (VITE_GITHUB_BRANCH):</label>
-          <div class="config-value">
-            <span class="value-display">{{ envConfig.githubBranch || '默认: master' }}</span>
+          <div class="flex items-center gap-2">
+            <span
+              v-if="item.isSet"
+              class="flex items-center gap-1.5 px-2.5 py-1 bg-green-50 text-green-700 text-xs font-medium rounded-full"
+            >
+              <CheckCircle class="w-3.5 h-3.5" />
+              Configured
+            </span>
+            <span
+              v-else-if="item.value"
+              class="px-2.5 py-1 bg-gray-100 text-gray-600 text-xs font-mono rounded-lg"
+            >
+              {{ item.value }}
+            </span>
+            <span
+              v-else
+              class="flex items-center gap-1.5 px-2.5 py-1 bg-red-50 text-red-600 text-xs font-medium rounded-full"
+            >
+              <XCircle class="w-3.5 h-3.5" />
+              Not configured
+            </span>
           </div>
         </div>
       </div>
-    </div>
+    </section>
 
-    <!-- 配置说明 -->
-    <div class="settings-section">
-      <h3>📖 配置说明</h3>
-      <div class="config-guide">
-        <div class="guide-step">
-          <h4>1. 获取 GitHub Personal Access Token</h4>
-          <ol>
-            <li>访问 <a href="https://github.com/settings/tokens" target="_blank" rel="noopener noreferrer">GitHub Settings → Developer settings → Personal access tokens</a></li>
-            <li>点击 "Generate new token" → "Generate new token (fine-grained token)"</li>
-            <li>设置 Token 名称，选择过期时间,仓库只选择mao_nav 防止token 泄露影响自己其他工程</li>
+    <!-- Configuration Guide -->
+    <section class="bg-white rounded-xl border border-gray-200 overflow-hidden">
+      <div class="px-6 py-4 border-b border-gray-100">
+        <h3 class="text-base font-semibold text-gray-900 flex items-center gap-2">
+          <BookOpen class="w-5 h-5" />
+          Configuration Guide
+        </h3>
+      </div>
+      <div class="divide-y divide-gray-100">
+        <!-- Step 1 -->
+        <div class="p-6">
+          <h4 class="text-sm font-semibold text-gray-900 mb-3 flex items-center gap-2">
+            <span class="w-6 h-6 bg-gray-900 text-white text-xs font-bold rounded-full flex items-center justify-center">1</span>
+            Get GitHub Personal Access Token
+          </h4>
+          <ol class="text-sm text-gray-600 space-y-2 ml-8 list-decimal">
             <li>
-              <strong>在 <span style="color:#3498db">Repository permissions (仓库权限)</span> 部分，勾选以下权限：</strong>
-              <ul>
-                <li>
-                  <code>Contents</code> - <strong>Read and write</strong> ✅<br>
-                  <span style="color:#888;font-size:13px;">用于读取和修改 <code>src/mock/mock_data.js</code> 文件，这是管理系统的核心功能</span>
-                </li>
-                <li>
-                  <code>Metadata</code> - <strong>Read</strong> ✅<br>
-                  <span style="color:#888;font-size:13px;">用于访问仓库基本信息，GitHub API 的基础权限</span>
-                </li>
-              </ul>
-              <div style="margin-top:8px;">
-                <strong>在 <span style="color:#f39c12">Account permissions (账户权限)</span> 部分：</strong><br>
-                <span style="color:#888;font-size:13px;">不需要勾选任何账户权限 ❌，我们只操作特定仓库，不需要账户级别的权限</span>
-              </div>
+              Go to
+              <a
+                href="https://github.com/settings/tokens"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="text-blue-600 hover:underline"
+              >
+                GitHub Settings → Developer settings → Personal access tokens
+              </a>
             </li>
-            <li>点击 "Generate token" 并复制 Token</li>
+            <li>Click "Generate new token" → "Generate new token (fine-grained token)"</li>
+            <li>Set token name and expiration. Select only the mao_nav repository for security</li>
+            <li>
+              <span class="font-medium">Repository permissions:</span>
+              <ul class="mt-1 ml-4 space-y-1 list-disc">
+                <li><code class="px-1.5 py-0.5 bg-gray-100 text-red-600 text-xs rounded">Contents</code> - Read and write</li>
+                <li><code class="px-1.5 py-0.5 bg-gray-100 text-red-600 text-xs rounded">Metadata</code> - Read</li>
+              </ul>
+            </li>
+            <li>Click "Generate token" and copy it</li>
           </ol>
         </div>
 
-        <div class="guide-step">
-          <h4>2. 配置环境变量</h4>
-          <p>
-            <strong>如果你在 <span style="color:#3498db">自己的服务器</span> 部署：</strong><br>
-            在项目根目录创建 <code>.env</code> 文件，添加以下配置：
+        <!-- Step 2 -->
+        <div class="p-6">
+          <h4 class="text-sm font-semibold text-gray-900 mb-3 flex items-center gap-2">
+            <span class="w-6 h-6 bg-gray-900 text-white text-xs font-bold rounded-full flex items-center justify-center">2</span>
+            Configure Environment Variables
+          </h4>
+          <p class="text-sm text-gray-600 mb-3 ml-8">
+            Create a <code class="px-1.5 py-0.5 bg-gray-100 text-red-600 text-xs rounded">.env</code> file in the project root, or set in Vercel/Cloudflare Pages:
           </p>
-          <p>
-            <strong>如果你使用 <span style="color:#27ae60">Vercel</span> 或 <span style="color:#f39c12">Cloudflare Pages</span> 部署：</strong><br>
-            请在对应平台的「环境变量」设置界面，添加下方这些变量，无需在项目中创建 <code>.env</code> 文件。
-          </p>
-          <div class="code-block">
-            <pre><code># 管理员密钥（自定义）
-VITE_ADMIN_PASSWORD=your_admin_password_here
+          <div class="ml-8 bg-gray-900 rounded-xl p-4 overflow-x-auto">
+            <pre class="text-sm text-gray-300 font-mono leading-relaxed"><code># Admin password
+VITE_ADMIN_PASSWORD=your_password_here
 
-# GitHub Token
+# GitHub configuration
 VITE_GITHUB_TOKEN=your_github_token_here
-# Github 仓库所有者
-VITE_GITHUB_OWNER=your_github_owner_here
-VITE_GITHUB_REPO=your_github_repo_here
-VITE_GITHUB_BRANCH=your_github_branch_here</code></pre>
+VITE_GITHUB_OWNER=your_github_username
+VITE_GITHUB_REPO=mao_nav
+VITE_GITHUB_BRANCH=master</code></pre>
           </div>
         </div>
 
-        <div class="guide-step">
-          <h4>3. 安全注意事项</h4>
-          <ul>
-            <li>🔒 <strong>不要</strong>将 <code>.env</code> 文件提交到 Git 仓库</li>
-            <li>🔑 GitHub Token 具有写入权限，请妥善保管</li>
-            <li>🚫 定期更新和轮换 Token</li>
-            <li>📝 在生产环境中，建议使用更安全的密钥管理方案</li>
+        <!-- Step 3 -->
+        <div class="p-6">
+          <h4 class="text-sm font-semibold text-gray-900 mb-3 flex items-center gap-2">
+            <span class="w-6 h-6 bg-gray-900 text-white text-xs font-bold rounded-full flex items-center justify-center">3</span>
+            Security Notes
+          </h4>
+          <ul class="text-sm text-gray-600 space-y-2 ml-8">
+            <li class="flex items-start gap-2">
+              <Shield class="w-4 h-4 text-gray-400 mt-0.5 shrink-0" />
+              <span>Never commit <code class="px-1.5 py-0.5 bg-gray-100 text-red-600 text-xs rounded">.env</code> file to Git</span>
+            </li>
+            <li class="flex items-start gap-2">
+              <Key class="w-4 h-4 text-gray-400 mt-0.5 shrink-0" />
+              <span>Keep your GitHub Token secure and private</span>
+            </li>
+            <li class="flex items-start gap-2">
+              <RefreshCw class="w-4 h-4 text-gray-400 mt-0.5 shrink-0" />
+              <span>Rotate tokens regularly for better security</span>
+            </li>
           </ul>
         </div>
       </div>
-    </div>
+    </section>
 
-    <!-- 系统信息 -->
-    <div class="settings-section">
-      <h3>ℹ️ 系统信息</h3>
-      <div class="system-info">
-        <div class="info-grid">
-          <div class="info-item">
-            <span class="info-label">Vue 版本:</span>
-            <span class="info-value">{{ systemInfo.vueVersion }}</span>
+    <!-- System Info -->
+    <section class="bg-white rounded-xl border border-gray-200 overflow-hidden">
+      <div class="px-6 py-4 border-b border-gray-100">
+        <h3 class="text-base font-semibold text-gray-900 flex items-center gap-2">
+          <Info class="w-5 h-5" />
+          System Information
+        </h3>
+      </div>
+      <div class="p-6">
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+            <span class="text-sm font-medium text-gray-600">Vue Version</span>
+            <span class="text-sm text-gray-900 font-mono">{{ systemInfo.vueVersion }}</span>
           </div>
-          <div class="info-item">
-            <span class="info-label">构建工具:</span>
-            <span class="info-value">Vite</span>
+          <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+            <span class="text-sm font-medium text-gray-600">Build Tool</span>
+            <span class="text-sm text-gray-900 font-mono">Vite</span>
           </div>
-          <div class="info-item">
-            <span class="info-label">部署时间:</span>
-            <span class="info-value">{{ systemInfo.buildTime }}</span>
+          <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+            <span class="text-sm font-medium text-gray-600">Build Time</span>
+            <span class="text-sm text-gray-900 font-mono">{{ systemInfo.buildTime }}</span>
           </div>
-          <div class="info-item">
-            <span class="info-label">浏览器:</span>
-            <span class="info-value">{{ systemInfo.userAgent }}</span>
+          <div class="col-span-1 sm:col-span-2 p-3 bg-gray-50 rounded-lg">
+            <span class="text-sm font-medium text-gray-600 block mb-1">Browser</span>
+            <span class="text-xs text-gray-500 font-mono break-all">{{ systemInfo.userAgent }}</span>
           </div>
         </div>
       </div>
-    </div>
+    </section>
 
-    <!-- 自定义弹框 -->
+    <!-- Custom Dialog -->
     <CustomDialog
       :visible="dialogVisible"
       :type="dialogType"
@@ -253,17 +346,34 @@ VITE_GITHUB_BRANCH=your_github_branch_here</code></pre>
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 import { useGitHubAPI } from '../../apis/useGitHubAPI.js'
 import CustomDialog from './CustomDialog.vue'
+import {
+  Github,
+  Globe,
+  Settings,
+  BookOpen,
+  Info,
+  RefreshCw,
+  Save,
+  Loader2,
+  FolderOpen,
+  Upload,
+  CheckCircle,
+  XCircle,
+  Shield,
+  Key,
+  Image as ImageIcon
+} from 'lucide-vue-next'
 
 const { verifyGitHubConnection, loadCategoriesFromGitHub, saveCategoriesToGitHub, uploadBinaryFile } = useGitHubAPI()
 
-// 连接状态
+// Connection status
 const connectionStatus = ref(null)
 const testing = ref(false)
 
-// 环境变量配置
+// Environment config
 const envConfig = ref({
   adminPassword: '',
   githubToken: '',
@@ -272,33 +382,66 @@ const envConfig = ref({
   githubBranch: ''
 })
 
-// 系统信息
+// Computed env items for display
+const envItems = computed(() => [
+  {
+    key: 'VITE_ADMIN_PASSWORD',
+    label: 'Admin Password',
+    isSet: !!envConfig.value.adminPassword,
+    value: null
+  },
+  {
+    key: 'VITE_GITHUB_TOKEN',
+    label: 'GitHub Token',
+    isSet: !!envConfig.value.githubToken,
+    value: null
+  },
+  {
+    key: 'VITE_GITHUB_OWNER',
+    label: 'GitHub Owner',
+    isSet: false,
+    value: envConfig.value.githubOwner || 'Default: maodeyu180'
+  },
+  {
+    key: 'VITE_GITHUB_REPO',
+    label: 'GitHub Repository',
+    isSet: false,
+    value: envConfig.value.githubRepo || 'Default: mao_nav'
+  },
+  {
+    key: 'VITE_GITHUB_BRANCH',
+    label: 'GitHub Branch',
+    isSet: false,
+    value: envConfig.value.githubBranch || 'Default: master'
+  }
+])
+
+// System info
 const systemInfo = ref({
   vueVersion: '',
   buildTime: '',
   userAgent: ''
 })
 
-// 网站设置
+// Website settings
 const websiteTitle = ref('')
 const currentTitle = ref('')
 const titleSaving = ref(false)
 
-// Logo设置
+// Logo settings
 const logoFileInput = ref(null)
 const selectedLogoFile = ref(null)
 const logoPreview = ref('')
 const currentLogo = ref('/logo.png')
 const logoSaving = ref(false)
 
-// 自定义弹框状态
+// Dialog state
 const dialogVisible = ref(false)
 const dialogType = ref('success')
 const dialogTitle = ref('')
 const dialogMessage = ref('')
 const dialogDetails = ref([])
 
-// 显示弹框
 const showDialog = (type, title, message, details = []) => {
   dialogType.value = type
   dialogTitle.value = title
@@ -307,12 +450,11 @@ const showDialog = (type, title, message, details = []) => {
   dialogVisible.value = true
 }
 
-// 关闭弹框
 const closeDialog = () => {
   dialogVisible.value = false
 }
 
-// 测试GitHub连接
+// Test GitHub connection
 const testConnection = async () => {
   testing.value = true
   try {
@@ -327,7 +469,7 @@ const testConnection = async () => {
   }
 }
 
-// 检查环境变量配置
+// Check environment config
 const checkEnvConfig = () => {
   envConfig.value = {
     adminPassword: import.meta.env.VITE_ADMIN_PASSWORD ? '***' : '',
@@ -338,7 +480,7 @@ const checkEnvConfig = () => {
   }
 }
 
-// 获取系统信息
+// Get system info
 const getSystemInfo = () => {
   systemInfo.value = {
     vueVersion: '3.x',
@@ -347,101 +489,82 @@ const getSystemInfo = () => {
   }
 }
 
-// 加载当前网站设置
+// Load website settings
 const loadWebsiteSettings = async () => {
   try {
     const data = await loadCategoriesFromGitHub()
     currentTitle.value = data.title || 'Home导航'
     websiteTitle.value = currentTitle.value
   } catch (error) {
-    console.error('加载网站设置失败:', error)
+    console.error('Failed to load website settings:', error)
     currentTitle.value = 'Home导航'
     websiteTitle.value = 'Home导航'
   }
 }
 
-// 保存标题到GitHub
+// Save title to GitHub
 const saveTitleToGitHub = async () => {
   if (!websiteTitle.value.trim()) {
-    showDialog(
-      'error',
-      '❌ 输入错误',
-      '请输入网站标题',
-      []
-    )
+    showDialog('error', 'Input Error', 'Please enter a website title', [])
     return
   }
 
   titleSaving.value = true
   try {
-    // 加载当前数据
     const data = await loadCategoriesFromGitHub()
-
-    // 更新标题
     data.title = websiteTitle.value.trim()
-
-    // 保存到GitHub
     await saveCategoriesToGitHub(data)
 
     currentTitle.value = websiteTitle.value.trim()
     showDialog(
       'success',
-      '🎉 网站标题保存成功',
-      '您的网站标题已成功保存到GitHub仓库！',
+      'Title Saved',
+      'Your website title has been saved to GitHub.',
       [
-        '• 更改将在 2-3 分钟内自动部署到线上',
-        '• 部署完成后，您可以在前台页面看到最新标题',
-        '• 如有问题，请检查Vercel或CFpage是否触发自动部署'
+        '• Changes will be deployed in 2-3 minutes',
+        '• Check your deployment status if needed'
       ]
     )
   } catch (error) {
-    console.error('保存标题失败:', error)
+    console.error('Failed to save title:', error)
     showDialog(
       'error',
-      '❌ 保存失败',
-      '网站标题保存过程中发生错误，请重试',
-      [`• 错误详情: ${error.message}`]
+      'Save Failed',
+      'An error occurred while saving the title.',
+      [`• Error: ${error.message}`]
     )
   } finally {
     titleSaving.value = false
   }
 }
 
-// 选择Logo文件
+// Select logo file
 const selectLogo = () => {
   logoFileInput.value?.click()
 }
 
-// 处理Logo文件选择
+// Handle logo file selection
 const handleLogoSelect = (event) => {
   const file = event.target.files[0]
   if (!file) return
 
-  // 验证文件类型
   if (file.type !== 'image/png') {
-    showDialog(
-      'error',
-      '❌ 文件格式错误',
-      '请选择PNG格式的图片文件',
-      []
-    )
+    showDialog('error', 'Invalid Format', 'Please select a PNG image file', [])
     return
   }
 
-  // 验证文件大小 (限制为2MB)
   if (file.size > 2 * 1024 * 1024) {
     showDialog(
       'error',
-      '❌ 文件过大',
-      '图片文件大小不能超过2MB',
-      [`• 当前文件大小: ${(file.size / 1024 / 1024).toFixed(2)}MB`]
+      'File Too Large',
+      'Image file size must be under 2MB',
+      [`• Current size: ${(file.size / 1024 / 1024).toFixed(2)}MB`]
     )
     return
   }
 
   selectedLogoFile.value = file
 
-  // 创建预览
   const reader = new FileReader()
   reader.onload = (e) => {
     logoPreview.value = e.target.result
@@ -449,61 +572,48 @@ const handleLogoSelect = (event) => {
   reader.readAsDataURL(file)
 }
 
-// 保存Logo到GitHub
+// Save logo to GitHub
 const saveLogoToGitHub = async () => {
   if (!selectedLogoFile.value) {
-    showDialog(
-      'error',
-      '❌ 未选择文件',
-      '请先选择Logo文件',
-      []
-    )
+    showDialog('error', 'No File Selected', 'Please select a logo file first', [])
     return
   }
 
   logoSaving.value = true
   try {
-    // 读取文件为ArrayBuffer
     const arrayBuffer = await selectedLogoFile.value.arrayBuffer()
-
-    // 上传到GitHub
     const githubPath = 'public/logo.png'
-    const message = `chore: 更新网站Logo - ${new Date().toLocaleString('zh-CN')}`
+    const message = `chore: update website logo - ${new Date().toLocaleString('zh-CN')}`
 
     await uploadBinaryFile(githubPath, arrayBuffer, message)
 
-    // 更新当前Logo显示
     currentLogo.value = logoPreview.value
-
-    // 清理选择的文件
     selectedLogoFile.value = null
     logoPreview.value = ''
     logoFileInput.value.value = ''
 
     showDialog(
       'success',
-      '🎉 Logo上传成功',
-      '您的网站Logo已成功保存到GitHub仓库！',
+      'Logo Uploaded',
+      'Your website logo has been saved to GitHub.',
       [
-        '• 更改将在 2-3 分钟内自动部署到线上',
-        '• 部署完成后，刷新页面即可看到新Logo',
-        '• 如有问题，请检查Vercel或CFpage是否触发自动部署'
+        '• Changes will be deployed in 2-3 minutes',
+        '• Refresh the page after deployment to see the new logo'
       ]
     )
   } catch (error) {
-    console.error('上传Logo失败:', error)
+    console.error('Failed to upload logo:', error)
     showDialog(
       'error',
-      '❌ 上传失败',
-      'Logo上传过程中发生错误，请重试',
-      [`• 错误详情: ${error.message}`]
+      'Upload Failed',
+      'An error occurred while uploading the logo.',
+      [`• Error: ${error.message}`]
     )
   } finally {
     logoSaving.value = false
   }
 }
 
-// 组件挂载时执行
 onMounted(() => {
   checkEnvConfig()
   getSystemInfo()
@@ -511,481 +621,3 @@ onMounted(() => {
   loadWebsiteSettings()
 })
 </script>
-
-<style scoped>
-.system-settings {
-  padding: 20px 0;
-}
-
-.settings-header {
-  margin-bottom: 40px;
-}
-
-.settings-header h2 {
-  color: #2c3e50;
-  margin: 0 0 10px 0;
-  font-size: 24px;
-}
-
-.settings-header p {
-  color: #7f8c8d;
-  margin: 0;
-  font-size: 16px;
-}
-
-.settings-section {
-  margin-bottom: 40px;
-  padding: 25px;
-  background: #f8f9fa;
-  border-radius: 8px;
-  border: 1px solid #e9ecef;
-}
-
-.settings-section h3 {
-  color: #2c3e50;
-  margin: 0 0 20px 0;
-  font-size: 18px;
-  font-weight: 600;
-}
-
-/* GitHub状态样式 */
-.github-status {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  padding: 20px;
-  background: white;
-  border-radius: 6px;
-  border: 1px solid #e9ecef;
-}
-
-.github-status.connected {
-  border-color: #27ae60;
-  background: #f8fff9;
-}
-
-.status-indicator {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin-bottom: 15px;
-}
-
-.status-dot {
-  width: 12px;
-  height: 12px;
-  border-radius: 50%;
-  background: #e74c3c;
-  display: inline-block;
-}
-
-.status-dot.active {
-  background: #27ae60;
-}
-
-.status-text {
-  font-weight: 500;
-  color: #2c3e50;
-}
-
-.repo-info p {
-  margin: 5px 0;
-  color: #7f8c8d;
-  font-size: 14px;
-}
-
-.permission-badge {
-  padding: 2px 8px;
-  border-radius: 12px;
-  font-size: 12px;
-  font-weight: 500;
-}
-
-.permission-badge.success {
-  background: #d4edda;
-  color: #155724;
-}
-
-.permission-badge.warning {
-  background: #fff3cd;
-  color: #856404;
-}
-
-.error-info p {
-  color: #e74c3c;
-  font-size: 14px;
-  margin: 5px 0;
-}
-
-.test-btn {
-  padding: 8px 16px;
-  background: #3498db;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 14px;
-  transition: background-color 0.3s ease;
-}
-
-.test-btn:hover:not(:disabled) {
-  background: #2980b9;
-}
-
-.test-btn:disabled {
-  background: #bdc3c7;
-  cursor: not-allowed;
-}
-
-/* 环境变量配置样式 */
-.env-config {
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
-}
-
-.config-item {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 15px;
-  background: white;
-  border-radius: 6px;
-  border: 1px solid #e9ecef;
-}
-
-.config-item label {
-  font-weight: 500;
-  color: #2c3e50;
-  flex: 1;
-}
-
-.config-value {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.value-set {
-  color: #27ae60;
-  font-weight: 500;
-}
-
-.value-missing {
-  color: #e74c3c;
-  font-weight: 500;
-}
-
-.value-display {
-  color: #7f8c8d;
-  font-family: monospace;
-  background: #f8f9fa;
-  padding: 4px 8px;
-  border-radius: 4px;
-  font-size: 13px;
-}
-
-/* 配置说明样式 */
-.config-guide {
-  background: white;
-  border-radius: 6px;
-  border: 1px solid #e9ecef;
-  overflow: hidden;
-}
-
-.guide-step {
-  padding: 20px;
-  border-bottom: 1px solid #e9ecef;
-}
-
-.guide-step:last-child {
-  border-bottom: none;
-}
-
-.guide-step h4 {
-  color: #2c3e50;
-  margin: 0 0 15px 0;
-  font-size: 16px;
-}
-
-.guide-step ol, .guide-step ul {
-  margin: 10px 0 0 20px;
-  color: #555;
-}
-
-.guide-step ol li, .guide-step ul li {
-  margin-bottom: 8px;
-  line-height: 1.5;
-}
-
-.guide-step p {
-  color: #555;
-  line-height: 1.6;
-  margin: 10px 0;
-}
-
-.guide-step a {
-  color: #3498db;
-  text-decoration: none;
-}
-
-.guide-step a:hover {
-  text-decoration: underline;
-}
-
-.guide-step code {
-  background: #f8f9fa;
-  padding: 2px 6px;
-  border-radius: 3px;
-  font-family: 'Consolas', 'Monaco', monospace;
-  color: #e74c3c;
-  font-size: 13px;
-}
-
-.code-block {
-  background: #f8f9fa;
-  border: 1px solid #e9ecef;
-  border-radius: 6px;
-  padding: 15px;
-  margin: 15px 0;
-  overflow-x: auto;
-}
-
-.code-block pre {
-  margin: 0;
-  font-family: 'Consolas', 'Monaco', monospace;
-  font-size: 13px;
-  line-height: 1.4;
-  color: #2c3e50;
-}
-
-/* 系统信息样式 */
-.system-info {
-  background: white;
-  border-radius: 6px;
-  border: 1px solid #e9ecef;
-  padding: 20px;
-}
-
-.info-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 15px;
-}
-
-.info-item {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 10px;
-  background: #f8f9fa;
-  border-radius: 4px;
-}
-
-.info-label {
-  font-weight: 500;
-  color: #2c3e50;
-}
-
-.info-value {
-  color: #7f8c8d;
-  font-family: monospace;
-  font-size: 13px;
-  max-width: 200px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-/* 网站设置样式 */
-.website-settings {
-  display: flex;
-  flex-direction: column;
-  gap: 30px;
-}
-
-.setting-group {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-.setting-group label {
-  font-weight: 600;
-  color: #2c3e50;
-  font-size: 16px;
-}
-
-.setting-description {
-  color: #7f8c8d;
-  font-size: 13px;
-  margin: 5px 0 0 0;
-}
-
-/* 标题设置样式 */
-.title-input-group {
-  display: flex;
-  gap: 10px;
-  align-items: center;
-}
-
-.title-input {
-  flex: 1;
-  padding: 10px 15px;
-  border: 2px solid #e9ecef;
-  border-radius: 6px;
-  font-size: 14px;
-  transition: border-color 0.3s ease;
-}
-
-.title-input:focus {
-  outline: none;
-  border-color: #3498db;
-}
-
-.save-title-btn {
-  padding: 10px 20px;
-  background: #3498db;
-  color: white;
-  border: none;
-  border-radius: 6px;
-  font-weight: 500;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  white-space: nowrap;
-}
-
-.save-title-btn:hover:not(:disabled) {
-  background: #2980b9;
-}
-
-.save-title-btn:disabled {
-  background: #bdc3c7;
-  cursor: not-allowed;
-}
-
-/* Logo设置样式 */
-.logo-upload-area {
-  display: flex;
-  gap: 20px;
-  align-items: flex-start;
-}
-
-.logo-preview {
-  width: 128px;
-  height: 128px;
-  border: 2px dashed #e9ecef;
-  border-radius: 8px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: #f8f9fa;
-  overflow: hidden;
-}
-
-.logo-preview-img {
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-}
-
-.logo-placeholder {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  color: #7f8c8d;
-  text-align: center;
-}
-
-.logo-placeholder span {
-  font-size: 32px;
-  margin-bottom: 8px;
-}
-
-.logo-placeholder p {
-  margin: 0;
-  font-size: 13px;
-}
-
-.logo-upload-controls {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-.select-logo-btn, .save-logo-btn {
-  padding: 10px 20px;
-  border: none;
-  border-radius: 6px;
-  font-weight: 500;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  white-space: nowrap;
-}
-
-.select-logo-btn {
-  background: #95a5a6;
-  color: white;
-}
-
-.select-logo-btn:hover {
-  background: #7f8c8d;
-}
-
-.save-logo-btn {
-  background: #27ae60;
-  color: white;
-}
-
-.save-logo-btn:hover:not(:disabled) {
-  background: #219a52;
-}
-
-.save-logo-btn:disabled {
-  background: #bdc3c7;
-  cursor: not-allowed;
-}
-
-/* 响应式设计 */
-@media (max-width: 768px) {
-  .github-status {
-    flex-direction: column;
-    gap: 15px;
-  }
-
-  .config-item {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 10px;
-  }
-
-  .info-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .info-item {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 5px;
-  }
-
-  .info-value {
-    max-width: none;
-    word-break: break-all;
-  }
-
-  .title-input-group {
-    flex-direction: column;
-    align-items: stretch;
-  }
-
-  .logo-upload-area {
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .logo-upload-controls {
-    align-items: center;
-  }
-}
-</style>
