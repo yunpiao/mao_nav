@@ -192,6 +192,13 @@ export const mockData = {
           "icon": ""
         },
         {
+          "id": "fenshululu-exam",
+          "name": "分数录录考试",
+          "url": "https://exam.fenshululu.cn/",
+          "description": "分数录录在线考试系统",
+          "icon": ""
+        },
+        {
           "id": "noise",
           "name": "Noise Service",
           "url": "https://noise.yunpiao.site/",
