@@ -185,6 +185,20 @@ export const mockData = {
           "icon": ""
         },
         {
+          "id": "fenshululu-chat",
+          "name": "分数录录聊天",
+          "url": "https://chat.fenshululu.cn/",
+          "description": "分数录录在线客服系统",
+          "icon": ""
+        },
+        {
+          "id": "noise",
+          "name": "Noise Service",
+          "url": "https://noise.yunpiao.site/",
+          "description": "白噪音与环境音服务",
+          "icon": ""
+        },
+        {
           "id": "newapi",
           "name": "NewAPI",
           "url": "https://newapi.yunpiao.site",
