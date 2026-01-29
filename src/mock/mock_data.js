@@ -40,6 +40,13 @@ export const mockData = {
           "url": "https://tts.yunpiao.site",
           "description": "语音合成服务",
           "icon": ""
+        },
+        {
+          "id": "claude-code",
+          "name": "Claude Code",
+          "url": "http://100.64.0.1:18000",
+          "description": "Anthropic Claude Code CLI",
+          "icon": ""
         }
       ]
     },
