@@ -206,6 +206,13 @@ export const mockData = {
           "icon": ""
         },
         {
+          "id": "fenshululu-office",
+          "name": "Office 查看器",
+          "url": "https://office.fenshululu.cn/",
+          "description": "在线 Office 文档查看器",
+          "icon": ""
+        },
+        {
           "id": "noise",
           "name": "Noise Service",
           "url": "https://noise.yunpiao.site/",
