@@ -225,6 +225,13 @@ export const mockData = {
           "url": "https://newapi.yunpiao.site",
           "description": "API 管理服务",
           "icon": ""
+        },
+        {
+          "id": "wechat-notify",
+          "name": "微信推送",
+          "url": "https://notify.fenshululu.cn",
+          "description": "微信消息推送服务",
+          "icon": ""
         }
       ]
     },
