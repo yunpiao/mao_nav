@@ -232,6 +232,13 @@ export const mockData = {
           "url": "https://notify.fenshululu.cn",
           "description": "微信消息推送服务",
           "icon": ""
+        },
+        {
+          "id": "interview",
+          "name": "面试助手",
+          "url": "https://interview.yunpiao.site",
+          "description": "在线面试练习平台",
+          "icon": ""
         }
       ]
     },
